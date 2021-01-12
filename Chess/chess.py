@@ -1,6 +1,6 @@
 #==========================================
 # Title:  Schach
-# Author: LexiWexi
+# Author: Lexiwexi
 #==========================================
 aboard = []
 charset = "ABCDEFGH"

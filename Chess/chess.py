@@ -58,7 +58,7 @@ def boardDisplay():
     display = ""
     print("x",charset,"x")
     for i in range(len(aboard)):
-        print(i,"",end="")
+        print(i+1,"",end="")
         for j in range(len(aboard[i])):
             if aboard[i][j][0] != 0: #if not empty
                 if aboard[i][j][0] == 1: #if Black
@@ -88,7 +88,7 @@ def boardDisplay():
                     if aboard[i][j][1] == 5:
                         display = "♖"
             else:
-                display = " "
+                display = "□"
                 
             print(display,end="")
         print("",i,end="")
@@ -223,14 +223,14 @@ def playerMove(Player):
     pos1 = input("Position 1: ")
     
     x1 = linSearch(charset,pos1[0])
-    y1 = int(pos1[1])
+    y1 = int(pos1[1])-1
 
     print(pieceId([aboard[x1+1][y1+1][1] , Player]))
     
     pos2 = input("Position 2: ")
 
     x2 = linSearch(charset,pos2[0])
-    y2 = int(pos2[1])
+    y2 = int(pos2[1])-1
         
     return([x1,y1,x2,y2])
 

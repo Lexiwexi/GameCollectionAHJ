@@ -2,6 +2,7 @@
 # Title:  Schach
 # Author: Lexiwexi
 #==========================================
+
 aboard = []
 charset = "ABCDEFGH"
 

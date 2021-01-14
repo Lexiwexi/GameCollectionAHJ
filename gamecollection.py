@@ -4,7 +4,8 @@
 #==========================================
 
 import tkinter
-import spaceinvaders_main
+import runpy
+
 
 main = tkinter.Tk()
 main.title("Game Collection")
@@ -29,11 +30,11 @@ def win0(event=None):
     clearwin()
     chess_start_button = tkinter.Button(mframe, command=win1, text="Schach")
     spaceInvaders_start_button = tkinter.Button(mframe, command=win2, text="Space Invaders")
-    quit_button = tkinter.Button(mframe, command=close_window, text="Quit")
+    quit_button = tkinter.Button(bottomframe, command=close_window, text="Quit")
     
     chess_start_button.pack(fill=tkinter.X)
     spaceInvaders_start_button.pack(fill=tkinter.X)
-    quit_button.pack(pady=50)
+    quit_button.pack()
 
 def win1(event=None):
     #Schach Sub-Window
@@ -55,10 +56,14 @@ def win2(event=None):
     label1.pack()
     back = tkinter.Button(mframe, command=win0, text='Back')
     back.pack()
-    spaceinvaders_main.main_menu
+    runpy.run_path('spaceinvaders_main.py')
+
+    
+    
     
 def close_window():
     main.destroy()
+
 
 win0()
 

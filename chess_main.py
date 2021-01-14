@@ -92,7 +92,7 @@ O !
 '''
 
 #Output piece Name nicht unbedingt nötig für tkinter
-def pieceId(array):
+'''def pieceId(array):
     rank = array[0]
     color = array[1]
     outp = ""
@@ -115,7 +115,7 @@ def pieceId(array):
     if color == 2:
         outp = "White " + outp
 
-    return(outp)
+    return(outp)'''
 
 def playerId(player):
     if player == 1:
@@ -125,7 +125,7 @@ def playerId(player):
     else:
         return "???"
 
-#PlayerTurn
+'''#PlayerTurn
 def playerMove(Player):
     print("Player",Player,"'s turn:   ")
     """
@@ -146,9 +146,9 @@ def playerMove(Player):
     x2 = linSearch(charset,pos2[0])
     y2 = int(pos2[1])-1
         
-    return([x1,y1,x2,y2])
+    return([x1,y1,x2,y2])'''
 
-#Main
+#Main while loop macht sich nicht gut mit tkinter
 boardGen()
 boardSet()
 
@@ -201,7 +201,7 @@ def boardGen():
         for j in range(8):
             aboard[i].append([0,0]) 
 
-#background list for placmend
+#list for placmend
 def boardSet():
     for i in range(2):
         for j in range(8):
@@ -268,6 +268,8 @@ def playerMove():
 	y2=int(d)
     else:
         txty2.delete(0, END)
+	
+    return([x1,y1,x2,y2])
 
 #board update
 def boardDisplay():
@@ -306,7 +308,7 @@ def boardDisplay():
     pygame.display.flip()
 	
 #==========================================
-Tkinter pygame stuff
+#Tkinter pygame stuff
 
 #Tkinter fenster
 fenster=Tk()

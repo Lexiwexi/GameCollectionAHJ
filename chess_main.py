@@ -50,50 +50,7 @@ def boardSet():
     aboard[0][0][1] = 5
     aboard[0][-1][1] = 5
     aboard[-1][0][1] = 5
-    aboard[-1][-1][1] = 5
-    
-    
-## Display board in console line by line
-def boardDisplay():
-    display = ""
-    print("x",charset,"x")
-    for i in range(len(aboard)):
-        print(i+1,"",end="")
-        for j in range(len(aboard[i])):
-            if aboard[i][j][0] != 0: #if not empty
-                if aboard[i][j][0] == 1: #if Black
-                    if aboard[i][j][1] == 0:
-                        display = "♟"
-                    if aboard[i][j][1] == 1:
-                        display = "♞"
-                    if aboard[i][j][1] == 2:
-                        display = "♚"
-                    if aboard[i][j][1] == 3:
-                        display = "♛"
-                    if aboard[i][j][1] == 4:
-                        display = "♝"
-                    if aboard[i][j][1] == 5:
-                        display = "♜"
-                if aboard[i][j][0] == 2: #if White
-                    if aboard[i][j][1] == 0:
-                        display = "♙"
-                    if aboard[i][j][1] == 1:
-                        display = "♘"
-                    if aboard[i][j][1] == 2:
-                        display = "♔"
-                    if aboard[i][j][1] == 3:
-                        display = "♕"
-                    if aboard[i][j][1] == 4:
-                        display = "♗"
-                    if aboard[i][j][1] == 5:
-                        display = "♖"
-            else:
-                display = "□"
-                
-            print(display,end="")
-        print("",i,end="")
-        print()
-    print("x",charset,"x")
+    aboard[-1][-1][1] = 5                   
     
 #is move x1 y1 to x2 y2 legal?
 def isLegalMove(x1,y1,x2,y2,piece,currentcolor):
@@ -255,7 +212,100 @@ while G:
         print("!!!Move is not legal!!!")
         print()
         print("Select another move")
-    
+#==========================================
+#funktionen angepasst
+
+#beenden
+def schließen():
+    pygame.quit()
+    fenster.destroy()
+
+#Schachbrett
+def erstellen():
+    pygame.draw.rect(screen, (30,30,30), (65,65,5,570))
+    pygame.draw.rect(screen, (30,30,30), (65,630,570,5))
+    pygame.draw.rect(screen, (30,30,30), (630,65,5,570))
+    pygame.draw.rect(screen, (30,30,30), (65,65,570,5))
+    for a in range(4):
+        for b in range(4):
+            x=70+a*140
+            y=140+b*140
+            pygame.draw.rect(screen, (30,30,30), (x,y,70,70))
+    for a in range(4):
+        for b in range(4):
+            x=140+a*140
+            y=70+b*140
+            pygame.draw.rect(screen, (30,30,30), (x,y,70,70))
+
+#background list for placmend
+def boardSet():
+    for i in range(2):
+        for j in range(8):
+            aboard[i][j][0] = 1
+            aboard[-i-1][j][0] = 2
+
+    #Knight
+    aboard[0][1][1] = 1
+    aboard[0][-2][1] = 1
+    aboard[-1][1][1] = 1
+    aboard[-1][-2][1] = 1
+
+    #King     
+    aboard[0][4][1] = 2
+    aboard[-1][4][1] = 2
+
+    #Queen
+    aboard[0][3][1] = 3
+    aboard[-1][3][1] = 3
+
+    #Bishop
+    aboard[0][2][1] = 4
+    aboard[0][-3][1] = 4
+    aboard[-1][2][1] = 4
+    aboard[-1][-3][1] = 4
+
+    #Rook
+    aboard[0][0][1] = 5
+    aboard[0][-1][1] = 5
+    aboard[-1][0][1] = 5
+    aboard[-1][-1][1] = 5
+
+#board update
+def boardDisplay():
+    display = ""
+    for i in range(8):
+        for j in range(8):
+            if aboard[i][j][0] != 0: #if not empty
+                a=70+i*70
+                b=70+j*70
+                if aboard[i][j][0] == 1: #if Black
+                    if aboard[i][j][1] == 0:
+                        screen.blit(pb, (b,a))
+                    if aboard[i][j][1] == 1:
+                        screen.blit(nb, (b,a))
+                    if aboard[i][j][1] == 2:
+                        screen.blit(kb, (b,a))
+                    if aboard[i][j][1] == 3:
+                        screen.blit(qb, (b,a))
+                    if aboard[i][j][1] == 4:
+                        screen.blit(bb, (b,a))
+                    if aboard[i][j][1] == 5:
+                        screen.blit(rb, (b,a))
+                if aboard[i][j][0] == 2: #if White
+                    if aboard[i][j][1] == 0:
+                        screen.blit(pl, (b,a))
+                    if aboard[i][j][1] == 1:
+                        screen.blit(nl, (b,a))
+                    if aboard[i][j][1] == 2:
+                        screen.blit(kl, (b,a))
+                    if aboard[i][j][1] == 3:
+                        screen.blit(ql, (b,a))
+                    if aboard[i][j][1] == 4:
+                        screen.blit(bl, (b,a))
+                    if aboard[i][j][1] == 5:
+                        screen.blit(rl, (b,a))
+    pygame.display.flip()
+	
 #==========================================
 Tkinter pygame stuff
 from tkinter import *

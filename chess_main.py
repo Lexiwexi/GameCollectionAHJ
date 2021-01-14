@@ -1,7 +1,9 @@
 #==========================================
-# Title:  Schach
+# Title:  Schach/ Tkinter + Pygame mix
 # Author: Lexiwexi
 #==========================================
+from tkinter import *
+import pygame
 
 aboard = []
 charset = "ABCDEFGH"
@@ -10,47 +12,7 @@ def linSearch(lys, element):
 		for i in range (len(lys)):
         if lys[i] == element:
             return i
-    return -1
-
-# Generate/Reset board
-def boardGen():
-    for i in range(8):
-        aboard.append([])
-        for j in range(8):
-            aboard[i].append([0,0])
-
-#Setup Board with pieces
-def boardSet():
-    for i in range(2):
-        for j in range(8):
-            aboard[i][j][0] = 1
-            aboard[-i-1][j][0] = 2
-
-    #Knight
-    aboard[0][1][1] = 1
-    aboard[0][-2][1] = 1
-    aboard[-1][1][1] = 1
-    aboard[-1][-2][1] = 1
-
-    #King     
-    aboard[0][4][1] = 2
-    aboard[-1][4][1] = 2
-
-    #Queen
-    aboard[0][3][1] = 3
-    aboard[-1][3][1] = 3
-
-    #Bishop
-    aboard[0][2][1] = 4
-    aboard[0][-3][1] = 4
-    aboard[-1][2][1] = 4
-    aboard[-1][-3][1] = 4
-
-    #Rook
-    aboard[0][0][1] = 5
-    aboard[0][-1][1] = 5
-    aboard[-1][0][1] = 5
-    aboard[-1][-1][1] = 5                   
+    return -1          
     
 #is move x1 y1 to x2 y2 legal?
 def isLegalMove(x1,y1,x2,y2,piece,currentcolor):
@@ -129,12 +91,7 @@ O !
 .
 '''
 
-#move piece from x1,y1 to x2,y2
-def boardUpdate(x1,y1,x2,y2):
-    aboard[y2][x2]=aboard[y1][x1]
-    aboard[y1][x1]=[0,0]
-
-#Output piece Name
+#Output piece Name nicht unbedingt nötig für tkinter
 def pieceId(array):
     rank = array[0]
     color = array[1]
@@ -236,6 +193,13 @@ def erstellen():
             x=140+a*140
             y=70+b*140
             pygame.draw.rect(screen, (30,30,30), (x,y,70,70))
+	
+# Generate/Reset board
+def boardGen():
+    for i in range(8):
+        aboard.append([])
+        for j in range(8):
+            aboard[i].append([0,0]) 
 
 #background list for placmend
 def boardSet():
@@ -269,6 +233,11 @@ def boardSet():
     aboard[0][-1][1] = 5
     aboard[-1][0][1] = 5
     aboard[-1][-1][1] = 5
+
+#move piece from x1,y1 to x2,y2
+def boardUpdate(x1,y1,x2,y2):
+    aboard[y2][x2]=aboard[y1][x1]
+    aboard[y1][x1]=[0,0]
 
 #board update
 def boardDisplay():
@@ -308,8 +277,6 @@ def boardDisplay():
 	
 #==========================================
 Tkinter pygame stuff
-from tkinter import *
-import pygame
 
 #Tkinter fenster
 fenster=Tk()

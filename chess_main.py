@@ -239,6 +239,36 @@ def boardUpdate(x1,y1,x2,y2):
     aboard[y2][x2]=aboard[y1][x1]
     aboard[y1][x1]=[0,0]
 
+#Koordinaten von x1 y1 x2 y2
+def playerMove():
+    a=txtx1.get()
+    if a!='':
+        txtx1.delete(0, END)
+        x1=int(a)
+    else:
+        txtx1.delete(0, END)
+
+    b=txty1.get()
+    if b!='':
+        txty1.delete(0, END)
+        y1=int(b)
+    else:
+        txty1.delete(0, END)
+
+    c=txtx2.get()
+    if c!='':
+	txtx2.delete(0, END)
+        x2=int(c)
+    else:
+        txtx2.delete(0, END)
+
+    d=txty2.get()
+    if d!='':
+	txty2.delete(0, END)
+	y2=int(d)
+    else:
+        txty2.delete(0, END)
+
 #board update
 def boardDisplay():
     display = ""
@@ -287,11 +317,11 @@ lbl1=Label(fenster,text='Schach')
 lblp=Label(fenster,text='Am Zug:')
 lblp.place(x=10, y=80)
 #Buttonnewgame
-btn_erstellen=Button(fenster,text="New Game",command=erstellen)
+btn_erstellen=Button(fenster,text="New Game",command='''______________Unbestimmt bisher______________''')
 btn_erstellen.pack(anchor=S,padx=10,pady=10,expand=0,side=LEFT)
 btn_erstellen.place(x=10, y=410)
 #Button Start
-btn_erstellen=Button(fenster,text="Start",command=start)
+btn_erstellen=Button(fenster,text="Start",command='''______________Unbestimmt bisher______________''')
 btn_erstellen.pack(anchor=S,padx=10,pady=10,expand=0,side=LEFT)
 btn_erstellen.place(x=10, y=10)
 #Buttonende

@@ -3,6 +3,89 @@
 # Author: Lexiwexi
 #==========================================
 
+#jan stuff
+from tkinter import *
+import pygame
+
+#Tkinter fenster
+fenster=Tk()
+fenster.geometry("500x450")
+#label Schach
+lbl1=Label(fenster,text='Schach')
+#label Player
+lblp=Label(fenster,text='Am Zug:')
+lblp.place(x=10, y=80)
+#Buttonnewgame
+btn_erstellen=Button(fenster,text="New Game",command=erstellen)
+btn_erstellen.pack(anchor=S,padx=10,pady=10,expand=0,side=LEFT)
+btn_erstellen.place(x=10, y=410)
+#Button Start
+btn_erstellen=Button(fenster,text="Start",command=start)
+btn_erstellen.pack(anchor=S,padx=10,pady=10,expand=0,side=LEFT)
+btn_erstellen.place(x=10, y=10)
+#Buttonende
+btn_ende=Button(fenster,text="Ende",command=schließen)
+btn_ende.pack(anchor=S,padx=10,pady=10,expand=0,side=LEFT)
+btn_ende.place(x=90, y=410)
+#Textfeld x1
+txtx1=Entry(fenster)
+txtx1.pack(padx=10,pady=10)
+txtx1.place(x=100, y=200)
+#Textfeld y1
+txty1=Entry(fenster)
+txty1.pack(padx=10,pady=10)
+txty1.place(x=100, y=250)
+#Textfeld x2
+txtx2=Entry(fenster)
+txtx2.pack(padx=10,pady=10)
+txtx2.place(x=340, y=200)
+#Textfeld y2
+txty2=Entry(fenster)
+txty2.pack(padx=10,pady=10)
+txty2.place(x=340, y=250)
+
+#Label x1
+lbl2=Label(fenster,text='Eingabe für x1')
+lbl2.place(x=10, y=200)
+#Label x2
+lbl3=Label(fenster,text='Eingabe für x2')
+lbl3.place(x=250, y=200)
+#Label y1
+lbl3=Label(fenster,text='Eingabe für y1')
+lbl3.place(x=10, y=250)
+#Label y2
+lbl3=Label(fenster,text='Eingabe für y2')
+lbl3.place(x=250, y=250)
+
+#Figuren aus Dokument
+#Bishop l+b
+bl = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\bl.png.png')
+bb = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\bb.png')
+#king l+b
+kl = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\kl.png')
+kb = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\kb.png')
+#knigth l+b
+nl = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\nl.png')
+nb = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\nb.png')
+#pawn l+b
+pl = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\pl.png')
+pb = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\pb.png')
+#queen l+b
+ql = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\ql.png')
+qb = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\qb.png')
+#rook l+b
+rl = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\rl.png')
+rb = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\rb.png')
+
+#pygame screen
+pygame.init()
+#größe
+screen = pygame.display.set_mode([700, 700])
+#farben
+screen.fill((255, 255, 255))
+#==========================================
+
+
 aboard = []
 charset = "ABCDEFGH"
 

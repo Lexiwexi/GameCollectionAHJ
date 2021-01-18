@@ -52,14 +52,16 @@ def win1(event=None):
 def win2(event=None):
     #Space Invaders starten
     clearwin()
-    label1 = tkinter.Label(mframe, text='Space Invaders gestartet')
+    label1 = tkinter.Label(mframe, text='Space Invaders starten?')
     label1.pack()
+    start = tkinter.Button(mframe, command=start_space_Invaders, text='Start')
+    start.pack()
     back = tkinter.Button(mframe, command=win0, text='Back')
     back.pack()
+    
+def start_space_Invaders():
     runpy.run_path('spaceinvaders_main.py')
 
-    
-    
     
 def close_window():
     main.destroy()

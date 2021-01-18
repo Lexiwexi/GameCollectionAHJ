@@ -100,6 +100,16 @@ while G:
         print("Select another move")'''
 def main():
 	boardDisplay()
+	move = playerMove(Player) #x1,y1,x2,y2
+   	if isLegalMove(move[0],move[1],move[2],move[3],aboard[move[1]][move[0]][1],Player):
+       		boardUpdate(move[0],move[1],move[2],move[3])
+        	if Player == 1:
+			Player = 2
+        	else:
+            		Player = 1
+    	else:
+		lblp=Label(fenster,text='Falscher Zug')
+		lblp.place(x=80, y=80)
 #==========================================
 #funktionen angepasst
 
@@ -109,6 +119,7 @@ def start():
 	boardSet()
 	erstellen()
 	main()
+	
 #beenden
 def schließen():
     pygame.quit()

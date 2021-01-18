@@ -191,6 +191,44 @@ def boardUpdate(x1,y1,x2,y2):
 
 #Koordinaten von x1 y1 x2 y2
 def playerMove():
+	fenster2=Tk()
+	fenster2.geometry("100x100")
+	#Textfeld x1
+	txtx1=Entry(fenster2)
+	txtx1.pack(padx=10,pady=10)
+	txtx1.place(x=100, y=200)
+	#Textfeld y1
+	txty1=Entry(fenster2)
+	txty1.pack(padx=10,pady=10)
+	txty1.place(x=100, y=250)
+	#Textfeld x2
+	txtx2=Entry(fenster2)
+	txtx2.pack(padx=10,pady=10)
+	txtx2.place(x=340, y=200)
+	#Textfeld y2
+	txty2=Entry(fenster2)
+	txty2.pack(padx=10,pady=10)
+	txty2.place(x=340, y=250)
+
+	#Label x1
+	lbl2=Label(fenster2,text='Eingabe für x1')
+	lbl2.place(x=10, y=200)
+	#Label x2
+	lbl3=Label(fenster2,text='Eingabe für x2')
+	lbl3.place(x=250, y=200)
+	#Label y1
+	lbl3=Label(fenster2,text='Eingabe für y1')
+	lbl3.place(x=10, y=250)
+	#Label y2
+	lbl3=Label(fenster2,text='Eingabe für y2')
+	lbl3.place(x=250, y=250)
+	
+	#Button move
+	btn_erstellen=Button(fenster,text="Move",command=playerMoveEingabe)
+	btn_erstellen.pack(anchor=S,padx=10,pady=10,expand=0,side=LEFT)
+	btn_erstellen.place(x=80, y=10)
+	
+def playerMoveEingabe():
     a=txtx1.get()
     if a!='':
         txtx1.delete(0, END)
@@ -276,35 +314,6 @@ btn_erstellen.place(x=10, y=10)
 btn_ende=Button(fenster,text="Ende",command=schließen)
 btn_ende.pack(anchor=S,padx=10,pady=10,expand=0,side=LEFT)
 btn_ende.place(x=90, y=410)
-#Textfeld x1
-txtx1=Entry(fenster)
-txtx1.pack(padx=10,pady=10)
-txtx1.place(x=100, y=200)
-#Textfeld y1
-txty1=Entry(fenster)
-txty1.pack(padx=10,pady=10)
-txty1.place(x=100, y=250)
-#Textfeld x2
-txtx2=Entry(fenster)
-txtx2.pack(padx=10,pady=10)
-txtx2.place(x=340, y=200)
-#Textfeld y2
-txty2=Entry(fenster)
-txty2.pack(padx=10,pady=10)
-txty2.place(x=340, y=250)
-
-#Label x1
-lbl2=Label(fenster,text='Eingabe für x1')
-lbl2.place(x=10, y=200)
-#Label x2
-lbl3=Label(fenster,text='Eingabe für x2')
-lbl3.place(x=250, y=200)
-#Label y1
-lbl3=Label(fenster,text='Eingabe für y1')
-lbl3.place(x=10, y=250)
-#Label y2
-lbl3=Label(fenster,text='Eingabe für y2')
-lbl3.place(x=250, y=250)
 
 #Figuren aus Dokument
 #Bishop l+b

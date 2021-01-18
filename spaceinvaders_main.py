@@ -157,7 +157,7 @@ def main():
     run = True
     FPS = 60
     level = 0
-    lives = 5
+    lives = 2
     main_font = pygame.font.SysFont("comicsans", 50)
     lost_font = pygame.font.SysFont("comicsans", 60)
 
@@ -218,7 +218,7 @@ def main():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit()
+                pygame.quit()
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] and player.x - player_vel > 0: # left

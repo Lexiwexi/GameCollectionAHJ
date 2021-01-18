@@ -224,7 +224,7 @@ def playerMove():
 	lbl3.place(x=250, y=250)
 	
 	#Button move
-	btn_erstellen=Button(fenster,text="Move",command=playerMoveEingabe)
+	btn_erstellen=Button(fenster2,text="Move",command=playerMoveEingabe)
 	btn_erstellen.pack(anchor=S,padx=10,pady=10,expand=0,side=LEFT)
 	btn_erstellen.place(x=80, y=10)
 	
@@ -252,11 +252,11 @@ def playerMoveEingabe():
 
     d=txty2.get()
     if d!='':
-	txty2.delete(0, END)
-	y2=int(d)
+		txty2.delete(0, END)
+		y2=int(d)
     else:
         txty2.delete(0, END)
-	
+	fenster.destroy()
     return([x1,y1,x2,y2])
 
 #board update

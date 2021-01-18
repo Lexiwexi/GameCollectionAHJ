@@ -6,13 +6,7 @@ from tkinter import *
 import pygame
 
 aboard = []
-charset = "ABCDEFGH"
-
-def linSearch(lys, element):
-		for i in range (len(lys)):
-        if lys[i] == element:
-            return i
-    return -1          
+charset = "ABCDEFGH"     
     
 #is move x1 y1 to x2 y2 legal?
 def isLegalMove(x1,y1,x2,y2,piece,currentcolor):
@@ -76,46 +70,6 @@ def isLegalMove(x1,y1,x2,y2,piece,currentcolor):
                         if aboard[y1][x1+n+1] != [0,0]:
                             return False
                     return True
-                    
-
-'''
-...A....E..
-___A....E__ -> 4 x .
-
-
-A.O..E
-v
-. 
-O !
-.
-.
-'''
-
-#Output piece Name nicht unbedingt nötig für tkinter
-'''def pieceId(array):
-    rank = array[0]
-    color = array[1]
-    outp = ""
-    if color > 0:
-        if rank == 0:
-            outp = "Pawn"
-        if rank == 1:
-            outp = "Knight" 
-        if rank == 2:
-            outp = "King"
-        if rank == 3:
-            outp = "Queen"
-        if rank == 4:
-            outp = "Bishop"
-        if rank == 5:
-            outp = "Rook"
-
-    if color == 1:
-        outp = "Black " + outp
-    if color == 2:
-        outp = "White " + outp
-
-    return(outp)'''
 
 def playerId(player):
     if player == 1:
@@ -125,34 +79,9 @@ def playerId(player):
     else:
         return "???"
 
-'''#PlayerTurn
-def playerMove(Player):
-    print("Player",Player,"'s turn:   ")
-    """
-    x1 = int(input("x1 "))
-    y1 = int(input("y1 "))
-    x2 = int(input("x2 "))
-    y2 = int(input("y1 "))"""
-
-    pos1 = input("Position 1: ")
-    
-    x1 = linSearch(charset,pos1[0])
-    y1 = int(pos1[1])-1
-
-    print(pieceId([aboard[x1+1][y1+1][1] , Player]))
-    
-    pos2 = input("Position 2: ")
-
-    x2 = linSearch(charset,pos2[0])
-    y2 = int(pos2[1])-1
-        
-    return([x1,y1,x2,y2])'''
-
 #Main while loop macht sich nicht gut mit tkinter
-boardGen()
-boardSet()
 
-G = True
+'''G = True
 Player = 1
 while G:
     boardDisplay()
@@ -168,10 +97,18 @@ while G:
     else:
         print("!!!Move is not legal!!!")
         print()
-        print("Select another move")
+        print("Select another move")'''
+def main():
+	boardDisplay()
 #==========================================
 #funktionen angepasst
 
+#Start button funktion
+def start():
+	boardGen()
+	boardSet()
+	erstellen()
+	main()
 #beenden
 def schließen():
     pygame.quit()
@@ -238,6 +175,8 @@ def boardSet():
 def boardUpdate(x1,y1,x2,y2):
     aboard[y2][x2]=aboard[y1][x1]
     aboard[y1][x1]=[0,0]
+    screen.fill((255, 255, 255))
+    boardDisplay()
 
 #Koordinaten von x1 y1 x2 y2
 def playerMove():
@@ -318,12 +257,8 @@ lbl1=Label(fenster,text='Schach')
 #label Player
 lblp=Label(fenster,text='Am Zug:')
 lblp.place(x=10, y=80)
-#Buttonnewgame
-btn_erstellen=Button(fenster,text="New Game",command='''______________Unbestimmt bisher______________''')
-btn_erstellen.pack(anchor=S,padx=10,pady=10,expand=0,side=LEFT)
-btn_erstellen.place(x=10, y=410)
 #Button Start
-btn_erstellen=Button(fenster,text="Start",command='''______________Unbestimmt bisher______________''')
+btn_erstellen=Button(fenster,text="Start",command=start)
 btn_erstellen.pack(anchor=S,padx=10,pady=10,expand=0,side=LEFT)
 btn_erstellen.place(x=10, y=10)
 #Buttonende

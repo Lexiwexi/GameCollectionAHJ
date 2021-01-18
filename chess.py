@@ -246,7 +246,7 @@ boardSet()
 
 roundCount = 0
 G = True
-Player = 1
+Player = 2
 while G:
     boardDisplay()
     roundCount += 1
@@ -263,8 +263,3 @@ while G:
         print("!!!Move is not legal!!!")
         print()
         print("Select another move")
-
-
-
-
-

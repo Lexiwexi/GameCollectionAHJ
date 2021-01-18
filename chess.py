@@ -209,6 +209,8 @@ def playerId(player):
 
 #PlayerTurn
 def playerMove(Player):
+    z = False
+
     print("Player",playerList[Player-1],"'s turn:   ")
     """
     x1 = int(input("x1 "))
@@ -220,6 +222,16 @@ def playerMove(Player):
 
     if (linSearch(charset,pos1[0]) == -1)or(len(pos1)!=2):
         print('Please input legal value')
+        z = True
+
+    while z:
+        print()
+        pos1 = input("Position 1: ")
+
+        if (linSearch(charset,pos1[0]) == -1)or(len(pos1)!=2):
+            print('Please input legal value')
+        else:
+            z = False
 
     print(pos1)
 
@@ -232,7 +244,15 @@ def playerMove(Player):
 
     if (linSearch(charset,pos2[0]) == -1)or(len(pos2)!=2):
         print('Please input legal value')
-        playerMove(Player)
+        z = True
+
+    while z:
+        print()
+        pos2 = input("Position 2: ")
+        if (linSearch(charset,pos2[0]) == -1)or(len(pos2)!=2):
+            print('Please input legal value')
+        else:
+            z = False
 
     x2 = linSearch(charset,pos2[0])
     y2 = int(pos2[1])-1

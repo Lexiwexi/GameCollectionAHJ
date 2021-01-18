@@ -5,6 +5,8 @@
 
 aboard = []
 charset = "ABCDEFGH"
+playerList = ["Black","White"]
+
 
 def linSearch(lys, element):
     for i in range (len(lys)):
@@ -51,8 +53,8 @@ def boardSet():
     aboard[0][-1][1] = 5
     aboard[-1][0][1] = 5
     aboard[-1][-1][1] = 5
-    
-    
+
+
 ## Display board in console line by line
 def boardDisplay():
     display = ""
@@ -89,12 +91,12 @@ def boardDisplay():
                         display = "♖"
             else:
                 display = "□"
-                
+
             print(display,end="")
         print("",i+1,end="")
         print()
     print("x",charset,"x")
-    
+
 #is move x1 y1 to x2 y2 legal?
 def isLegalMove(x1,y1,x2,y2,piece,currentcolor):
     c = 1
@@ -103,43 +105,49 @@ def isLegalMove(x1,y1,x2,y2,piece,currentcolor):
             c = 1
         if currentcolor == 2:
             c = -1
-        print(c)
+
+        
         #print(aboard[y1][x1][0])
         if ((aboard[y1][x1][0] == currentcolor) and (aboard[y1][x1][1] == piece) ) and (aboard[y2][x2][0] != currentcolor):
             if piece == 0: #Pawn
-                if ( ( (x2 == x1) and (y2 == y1+(1*c)) ) and ( aboard[y2][x2] == [0,0] ) ) or ( ( ( (x2==x1+1) or (x2==x1-1) ) and (y2 == y1+1*c ) ) and ( aboard[y2][x2] != [0,0] ) ):
-                    return True
-                
+                if ( (y1 != 1) and (c==1) ) or ( (y1 != 6) and (c==-1) ):
+                    if ( ( (x2 == x1) and (y2 == y1+(1*c)) ) and ( aboard[y2][x2] == [0,0] ) ) or ( ( ( (x2==x1+1) or (x2==x1-1) ) and (y2 == y1+1*c) ) and ( aboard[y2][x2] != [0,0] ) ):
+                        return True
+                else:
+                    if ( ( (x2 == x1) and (y2 == y1+(2*c) ) and ( aboard[y2][x2] == [0,0] ) ) or ( ( ( (x2==x1+1) or (x2==x1-1) ) and (y2 == y1+2*c) ) and ( aboard[y2][x2] != [0,0] ) ) ) or ( ( ( (x2 == x1) and (y2 == y1+(1*c)) ) and ( aboard[y2][x2] == [0,0] ) ) or ( ( ( (x2==x1+1) or (x2==x1-1) ) and (y2 == y1+1*c) ) and ( aboard[y2][x2] != [0,0] ) ) ):
+                        print("hell yea")
+                        return True
+
             if piece == 1: #Knight
                 if ( (x2 == x1+2)or(x2 == x1-2) ) and ( (y2 == y1+1*c) or (y2 == y1-1*c) ) or ( (x2 == x1+1)or(x2 == x1-1) ) and ( (y2 == y1+2*c) or (y2 == y1-2*c) ):
                     return True
-                
+
             if piece == 2: #King
                 if  ( ( (x2==x1+1)or(x2==x1-1) ) or ( (y2==y1+1*c)or(y2==y1-1*c) ) )  or ( ( (x2==x1+1)or(x2==x1-1) ) and ( (y2==y1+1*c)or(y2==y1-1*c) ) ):
                     return True
-                
+
             if piece == 3: #Queen
                 if ( (x2-x1)==(y2-y1) ):
                     return True
-                
+
                 if ( ( (x2-x1) == 0) and ( (y2-y1) != 0) ):
                     for n in range( ( (y2-y1)*c )-1 ):
                         if aboard[y1+n+1][x1] != [0,0]:
                             return False
-                        
+
                     return True
                 if ( ( (x2-x1) != 0) and ( (y2-y1) == 0) ):
                     for n in range(x2-x1-1):
                         if aboard[y1][x1+n+1] != [0,0]:
                             return False
                     return True
-                
+
             if piece == 4:
                 if (x2-x1)==(y2-y1):
                     for n in range( int( (float(x2-x1)**0.5)**2) ):
                         print(n,'n')
                     return True
-                
+
             if piece == 5:
                 if ( ( (x2-x1) == 0) and ( (y2-y1) != 0) ):
                     #print(y2-y1*c,"in y")
@@ -148,7 +156,7 @@ def isLegalMove(x1,y1,x2,y2,piece,currentcolor):
                         #print(aboard[y1+n+1][x1])
                         if aboard[y1+n+1][x1] != [0,0]:
                             return False
-                        
+
                     return True
                 if ( ( (x2-x1) != 0) and ( (y2-y1) == 0) ):
                     #print(x2-x1)
@@ -157,7 +165,7 @@ def isLegalMove(x1,y1,x2,y2,piece,currentcolor):
                         if aboard[y1][x1+n+1] != [0,0]:
                             return False
                     return True
-                    
+
 
 
 #move piece from x1,y1 to x2,y2
@@ -201,7 +209,7 @@ def playerId(player):
 
 #PlayerTurn
 def playerMove(Player):
-    print("Player",Player,"'s turn:   ")
+    print("Player",playerList[Player-1],"'s turn:   ")
     """
     x1 = int(input("x1 "))
     y1 = int(input("y1 "))
@@ -214,12 +222,12 @@ def playerMove(Player):
         print('Please input legal value')
 
     print(pos1)
-    
+
     x1 = linSearch(charset,pos1[0])
     y1 = int(pos1[1])-1
 
     print(pieceId([aboard[y1][x1][1] , Player]))
-    
+
     pos2 = input("Position 2: ")
 
     if (linSearch(charset,pos2[0]) == -1)or(len(pos2)!=2):
@@ -228,17 +236,20 @@ def playerMove(Player):
 
     x2 = linSearch(charset,pos2[0])
     y2 = int(pos2[1])-1
-        
+
     return([x1,y1,x2,y2])
 
 #Main
 boardGen()
 boardSet()
 
+
+roundCount = 0
 G = True
 Player = 1
 while G:
     boardDisplay()
+    roundCount += 1
     move = playerMove(Player) #x1,y1,x2,y2
     #print(aboard[move[1]][move[0]][1])
     if isLegalMove(move[0],move[1],move[2],move[3],aboard[move[1]][move[0]][1],Player):
@@ -252,10 +263,8 @@ while G:
         print("!!!Move is not legal!!!")
         print()
         print("Select another move")
-    
 
 
 
-    
 
 

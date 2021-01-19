@@ -9,17 +9,19 @@ import time
 import random
 pygame.font.init()
 
-WIDTH, HEIGHT = 750, 750
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+WIN = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.display.set_caption("Space Invaders")
 
+surface = pygame.display.get_surface() 
+WIDTH, HEIGHT = surface.get_width(), surface.get_height()
+
 #Gegner laden
-RED_SPACE_SHIP = pygame.image.load(os.path.join("SpaceInvaders_Assets/pixel_ship_red_small.png"))
-GREEN_SPACE_SHIP = pygame.image.load(os.path.join("SpaceInvaders_Assets/pixel_ship_green_small.png"))
-BLUE_SPACE_SHIP = pygame.image.load(os.path.join("SpaceInvaders_Assets/pixel_ship_blue_small.png"))
+RED_SPACE_SHIP = pygame.image.load(os.path.join("SpaceInvaders_Assets/pixel_ship_red_small.png"))#70*50
+GREEN_SPACE_SHIP = pygame.image.load(os.path.join("SpaceInvaders_Assets/pixel_ship_green_small.png"))#70*50
+BLUE_SPACE_SHIP = pygame.image.load(os.path.join("SpaceInvaders_Assets/pixel_ship_blue_small.png"))#50*50
 
 #Spieler laden
-YELLOW_SPACE_SHIP = pygame.image.load(os.path.join("SpaceInvaders_Assets/pixel_ship_yellow.png"))
+YELLOW_SPACE_SHIP = pygame.image.load(os.path.join("SpaceInvaders_Assets/pixel_ship_yellow.png"))#100*90
 
 #Laser laden
 RED_LASER = pygame.image.load(os.path.join("SpaceInvaders_Assets/pixel_laser_red.png"))
@@ -165,10 +167,10 @@ def main():
     wave_length = 5
     enemy_vel = 1
 
-    player_vel = 5
+    player_vel = 10
     laser_vel = 5
 
-    player = Player(300, 630)
+    player = Player(int(WIDTH/2), (HEIGHT-150))
 
     clock = pygame.time.Clock()
 
@@ -231,6 +233,8 @@ def main():
             player.y += player_vel
         if keys[pygame.K_SPACE]:
             player.shoot()
+        if keys[pygame.K_ESCAPE]:
+            pygame.quit()
 
         for enemy in enemies[:]:
             enemy.move(enemy_vel)

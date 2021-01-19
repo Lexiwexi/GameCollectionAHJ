@@ -1,6 +1,31 @@
 #==========================================
 # Title:  Schach
 # Author: Lexiwexi
+#
+# Variables:
+# aboard -> array of board
+#   - aboard[y-position][x-position][color,piece]
+
+# Methods:
+# linSearch(lys, element)
+#   - linear search of elements in lys
+# boardGen()
+#   - Generates empty array (see aboard)
+# boardSet()
+#   - Setup chess-board with pieces
+# boardDisplay()
+#   - Display aboard in console (redundant in pygame)
+# boardUpdate(x1, y1, x2, y2)
+#   - Move piece from one position to another
+# isLegalMove(x1, y1, x2, y2, piece, currentcolor)
+#   - Check is move from one position to another is legal
+# pieceId(array)
+#   - Output Id of piece
+#   - array[0] = piece; array[1] = color
+# playerId(player)
+#   - Output color of player from id
+# playerMove(Player)
+#   - Get player input
 #==========================================
 
 aboard = []
@@ -8,22 +33,15 @@ charset = "ABCDEFGH"
 playerList = ["Black","White"]
 
 
-#*~*- Documentation of important stuffs -*~*
-#aboard -> array of board
-#aboard[y-position][x-position][color,piece]
-
-
 def linSearch(lys, element):
-    #Linear Search Algorithm
+    '''Linear search of element in lys'''
     for i in range (len(lys)):
         if lys[i] == element:
             return i
     return -1
 
-
 def boardGen():
-    # Generate/Reset board through appending
-    # new list elements
+    '''Generate/Reset board through appending new list elements'''
     for i in range(8):
         aboard.append([])
         for j in range(8):
@@ -31,8 +49,7 @@ def boardGen():
 
 
 def boardSet():
-    # Setup Board with pieces by asigning
-    # each color-square a piece
+    '''Setup Board with pieces by asigning each color-square a piece'''
     for i in range(2):
         for j in range(8):
             aboard[i][j][0] = 1
@@ -67,8 +84,9 @@ def boardSet():
 
 
 def boardDisplay():
-    # Display board in console line by line
-    # Function is redundant in pygame
+    '''Display board in console line by line
+
+    function is redundant in pygame'''
     display = ""
     print("x",charset,"x")
     for i in range(len(aboard)):
@@ -109,11 +127,15 @@ def boardDisplay():
         print()
     print("x",charset,"x")
 
+def boardUpdate(x1,y1,x2,y2):
+    '''move piece from 'x1','y1' to 'x2','y2''''
+    aboard[y2][x2]=aboard[y1][x1]
+    aboard[y1][x1]=[0,0]
 
 def isLegalMove(x1,y1,x2,y2,piece,currentcolor):
-    # Check if move from 'x1','y1' to 'x2','y2' with
-    # piece 'piece' with current player color as
-    # 'currentcolor' is legal
+    '''Checks if move from one square to another is legal
+
+Check if move from 'x1','y1' to 'x2','y2' with current player color as 'currentcolor' is legal'''
     c = 1
     if currentcolor != 0:
         if currentcolor == 1:
@@ -180,17 +202,10 @@ def isLegalMove(x1,y1,x2,y2,piece,currentcolor):
                             return False
                     return True
 
-
-
-
-def boardUpdate(x1,y1,x2,y2):
-    # move piece from 'x1','y1' to 'x2','y2'
-    aboard[y2][x2]=aboard[y1][x1]
-    aboard[y1][x1]=[0,0]
-
-
 def pieceId(array):
-    # Output piece Name; Redundant in pygame
+    '''Output piece Name
+
+    Redundant in pygame'''
     rank = array[0]
     color = array[1]
     outp = ""
@@ -216,7 +231,7 @@ def pieceId(array):
     return(outp)
 
 def playerId(player):
-    # Output color of player
+    '''Output color of player'''
     if player == 1:
         return "Black"
     if player == 2:
@@ -226,7 +241,7 @@ def playerId(player):
 
 
 def playerMove(Player):
-    # Get player input and output into array
+    '''Get player input and output into array'''
     z = False
 
     print("Player",playerList[Player-1],"'s turn:   ")
@@ -281,7 +296,6 @@ def playerMove(Player):
 boardGen()
 boardSet()
 
-
 roundCount = 0
 G = True
 Player = 2
@@ -300,8 +314,3 @@ while G:
         print("!!!Move is not legal!!!")
         print()
         print("Select another move")
-
-
-
-
-

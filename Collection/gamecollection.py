@@ -9,6 +9,8 @@ import runpy
 
 main = tkinter.Tk()
 main.title("Game Collection")
+main.geometry("{0}x{1}+0+0".format(main.winfo_screenwidth(), main.winfo_screenheight()))
+
 
 titel = tkinter.Label(main, text ='Game Collection')  
 titel.pack()

@@ -30,7 +30,7 @@ def win0(event=None):
     clearwin()
     chess_start_button = tkinter.Button(mframe, command=win1, text="Schach")
     spaceInvaders_start_button = tkinter.Button(mframe, command=win2, text="Space Invaders")
-    tictactoe_button = tkinter.Button(mframe, command=win3, text="Tic-Tac-Toe")
+    tictactoe_start_button = tkinter.Button(mframe, command=win3, text="Tic-Tac-Toe")
     quit_button = tkinter.Button(bottomframe, command=close_window, text="Quit")
     
     chess_start_button.pack(fill=tkinter.X)

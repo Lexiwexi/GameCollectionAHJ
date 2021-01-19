@@ -8,6 +8,7 @@ import tkinter.messagebox
 
 WIN = tkinter.Tk()
 WIN.title("Tic-Tac-Toe")
+WIN.geometry("{0}x{1}+0+0".format(WIN.winfo_screenwidth(), WIN.winfo_screenheight()))
 
 playera = tkinter.StringVar()
 playerb = tkinter.StringVar()

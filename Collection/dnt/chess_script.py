@@ -34,7 +34,16 @@ playerList = ["Black","White"]
 
 
 def linSearch(lys, element):
-    '''Linear search of element in lys'''
+    '''Searches element in a list
+
+    Parameters
+    ----------
+    lys: list
+        list of objects to search
+
+    element: str
+        element to be searched
+    '''
     for i in range (len(lys)):
         if lys[i] == element:
             return i
@@ -128,7 +137,7 @@ def boardDisplay():
     print("x",charset,"x")
 
 def boardUpdate(x1,y1,x2,y2):
-    '''move piece from 'x1','y1' to 'x2','y2''''
+    '''move piece from 'x1','y1' to 'x2','y2'''
     aboard[y2][x2]=aboard[y1][x1]
     aboard[y1][x1]=[0,0]
 
@@ -314,3 +323,5 @@ while G:
         print("!!!Move is not legal!!!")
         print()
         print("Select another move")
+        
+# :)

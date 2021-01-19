@@ -341,9 +341,3 @@ pygame.init()
 screen = pygame.display.set_mode([700, 700])
 #farben
 screen.fill((255, 255, 255))
-
-
-
-    
-
-

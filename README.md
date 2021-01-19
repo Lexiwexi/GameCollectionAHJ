@@ -2,8 +2,9 @@
 Collection of different games written in python.
 Games planned/ realized:  
 - Chess (WIP)
-- Space Invaders
 - Card Games (Todo)
+- Space Invaders
+- Tic-Tac-Toe
 
 
 ## Installation

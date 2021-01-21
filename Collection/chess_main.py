@@ -5,9 +5,14 @@
 from tkinter import *
 import pygame
 
+global aboard
 aboard = []
-charset = "ABCDEFGH"     
-    
+charset = "ABCDEFGH"
+global Player
+global move
+move=()
+global a,b,c,d
+
 #is move x1 y1 to x2 y2 legal?
 def isLegalMove(x1,y1,x2,y2,piece,currentcolor):
     c = 1
@@ -100,19 +105,7 @@ while G:
         print("Select another move")'''
 def main():
     boardDisplay()
-    move = playerMove(Player) #x1,y1,x2,y2
-    if isLegalMove(move[0],move[1],move[2],move[3],aboard[move[1]][move[0]][1],Player):
-            if Player==1:
-                Player = 2
-                boardUpdate(move[0],move[1],move[2],move[3])
-                main()
-            else:
-                Player = 1
-                main()
-    else:
-            lblp=Label(fenster,text='Falscher Zug')
-            lblp.place(x=80, y=80)
-            main()
+    playerMove(move) #x1,y1,x2,y2
 #==========================================
 #funktionen angepasst
 
@@ -127,6 +120,7 @@ def start():
 def schließen():
     pygame.quit()
     fenster.destroy()
+    movecoo.destroy()
 
 #Schachbrett
 def erstellen():
@@ -193,74 +187,52 @@ def boardUpdate(x1,y1,x2,y2):
     boardDisplay()
 
 #Koordinaten von x1 y1 x2 y2
-def playerMove():
-	fenster2=Tk()
-	fenster2.geometry("100x100")
-	#Textfeld x1
-	txtx1=Entry(fenster2)
-	txtx1.pack(padx=10,pady=10)
-	txtx1.place(x=100, y=200)
-	#Textfeld y1
-	txty1=Entry(fenster2)
-	txty1.pack(padx=10,pady=10)
-	txty1.place(x=100, y=250)
-	#Textfeld x2
-	txtx2=Entry(fenster2)
-	txtx2.pack(padx=10,pady=10)
-	txtx2.place(x=340, y=200)
-	#Textfeld y2
-	txty2=Entry(fenster2)
-	txty2.pack(padx=10,pady=10)
-	txty2.place(x=340, y=250)
+def playerMove(move):
+    movecoo=Tk()
+    movecoo.geometry("500x500")
+    Label(movecoo, text="X1").grid(row=0)
+    Label(movecoo, text="Y1").grid(row=1)
+    Label(movecoo, text="X2").grid(row=2)
+    Label(movecoo, text="Y2").grid(row=3)
+    a = Entry(movecoo)
+    b = Entry(movecoo)
+    c = Entry(movecoo)
+    d = Entry(movecoo)
+    a.grid(row=0, column=1)
+    b.grid(row=1, column=1)
+    c.grid(row=2, column=1)
+    d.grid(row=3, column=1)
+    e=str(a)
+    f=str(b)
+    g=str(c)
+    h=str(d)
+    x1=str(e)
+    y1=str(f)
+    x2=str(g)
+    y2=str(h)
+    a.delete(0, 'end')
+    b.delete(0, 'end')
+    c.delete(0, 'end')
+    d.delete(0, 'end')
+#Button move
+    btn_erstellen=Button(movecoo,text="Move",command=playerMoveEingabe)
+    btn_erstellen.grid(row=4)
+    move=([x1,y1,x2,y2])
+    return move
 
-	#Label x1
-	lbl2=Label(fenster2,text='Eingabe für x1')
-	lbl2.place(x=10, y=200)
-	#Label x2
-	lbl3=Label(fenster2,text='Eingabe für x2')
-	lbl3.place(x=250, y=200)
-	#Label y1
-	lbl3=Label(fenster2,text='Eingabe für y1')
-	lbl3.place(x=10, y=250)
-	#Label y2
-	lbl3=Label(fenster2,text='Eingabe für y2')
-	lbl3.place(x=250, y=250)
-	
-	#Button move
-	btn_erstellen=Button(fenster2,text="Move",command=playerMoveEingabe)
-	btn_erstellen.pack(anchor=S,padx=10,pady=10,expand=0,side=LEFT)
-	btn_erstellen.place(x=80, y=10)
-	
 def playerMoveEingabe():
-    a=txtx1.get()
-    if a!='':
-        txtx1.delete(0, END)
-        x1=int(a)
+    if isLegalMove(move[0],move[1],move[2],move[3],aboard[move[1]][move[0]][1],Player):
+        if Player==1:
+            Player = 2
+            boardUpdate(move[0],move[1],move[2],move[3])
+            main()
+        else:
+            Player = 1
+            main()
     else:
-        txtx1.delete(0, END)
-
-    b=txty1.get()
-    if b!='':
-        txty1.delete(0, END)
-        y1=int(b)
-    else:
-        txty1.delete(0, END)
-
-    c=txtx2.get()
-    if c!='':
-        txtx2.delete(0, END)
-        x2=int(c)
-    else:
-        txtx2.delete(0, END)
-
-    d=txty2.get()
-    if d!='':
-        txty2.delete(0, END)
-        y2=int(d)
-    else:
-        txty2.delete(0, END)
-        fenster.destroy()
-    return([x1,y1,x2,y2])
+        lblp=Label(fenster,text='Falscher Zug')
+        lblp.place(x=80, y=80)
+        main()
 
 #board update
 def boardDisplay():

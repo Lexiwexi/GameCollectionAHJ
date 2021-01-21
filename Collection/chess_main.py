@@ -10,7 +10,7 @@ charset = "ABCDEFGH"
     
 #is move x1 y1 to x2 y2 legal?
 def isLegalMove(x1,y1,x2,y2,piece,currentcolor):
-	c = 1
+    c = 1
     if currentcolor != 0:
         if currentcolor == 1:
             c = 1
@@ -99,20 +99,20 @@ while G:
         print()
         print("Select another move")'''
 def main():
-	boardDisplay()
-	move = playerMove(Player) #x1,y1,x2,y2
-   	if isLegalMove(move[0],move[1],move[2],move[3],aboard[move[1]][move[0]][1],Player):
-		boardUpdate(move[0],move[1],move[2],move[3])
-		if Player == 1:
-			Player = 2
-			main()
-		else:
-			Player = 1
-			main()
+    boardDisplay()
+    move = playerMove(Player) #x1,y1,x2,y2
+    if isLegalMove(move[0],move[1],move[2],move[3],aboard[move[1]][move[0]][1],Player):
+            if Player==1:
+                Player = 2
+                boardUpdate(move[0],move[1],move[2],move[3])
+                main()
+            else:
+                Player = 1
+                main()
     else:
-		lblp=Label(fenster,text='Falscher Zug')
-		lblp.place(x=80, y=80)
-		main()
+            lblp=Label(fenster,text='Falscher Zug')
+            lblp.place(x=80, y=80)
+            main()
 #==========================================
 #funktionen angepasst
 
@@ -125,7 +125,7 @@ def start():
 	
 #beenden
 def schließen():
-	pygame.quit()
+    pygame.quit()
     fenster.destroy()
 
 #Schachbrett
@@ -136,7 +136,7 @@ def erstellen():
     pygame.draw.rect(screen, (30,30,30), (65,65,570,5))
     for a in range(4):
         for b in range(4):
-			x=70+a*140
+            x=70+a*140
             y=140+b*140
             pygame.draw.rect(screen, (30,30,30), (x,y,70,70))
     for a in range(4):
@@ -234,7 +234,7 @@ def playerMove():
 def playerMoveEingabe():
     a=txtx1.get()
     if a!='':
-		txtx1.delete(0, END)
+        txtx1.delete(0, END)
         x1=int(a)
     else:
         txtx1.delete(0, END)
@@ -248,18 +248,18 @@ def playerMoveEingabe():
 
     c=txtx2.get()
     if c!='':
-	txtx2.delete(0, END)
+        txtx2.delete(0, END)
         x2=int(c)
     else:
         txtx2.delete(0, END)
 
     d=txty2.get()
     if d!='':
-		txty2.delete(0, END)
-		y2=int(d)
+        txty2.delete(0, END)
+        y2=int(d)
     else:
         txty2.delete(0, END)
-	fenster.destroy()
+        fenster.destroy()
     return([x1,y1,x2,y2])
 
 #board update
@@ -321,7 +321,7 @@ btn_ende.place(x=90, y=410)
 
 #Figuren aus Dokument
 #Bishop l+b
-bl = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\bl.png.png')
+'''bl = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\bl.png.png')
 bb = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\bb.png')
 #king l+b
 kl = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\kl.png')
@@ -337,7 +337,7 @@ ql = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\ql.pn
 qb = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\qb.png')
 #rook l+b
 rl = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\rl.png')
-rb = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\rb.png')
+rb = pygame.image.load(r'C:\Users\Jan-Eric Gedicke\Documents\Schachfiguren\rb.png')'''
 
 #pygame screen
 pygame.init()

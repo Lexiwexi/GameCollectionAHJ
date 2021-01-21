@@ -1,10 +1,11 @@
 # GameCollectionAHJ
 Collection of different games written in python.
 Games planned/ realized:  
-- Chess (WIP)
+- Chess (WiP)
 - Card Games (Todo)
 - Space Invaders
 - Tic-Tac-Toe
+- Tron (WiP)
 
 
 ## Installation

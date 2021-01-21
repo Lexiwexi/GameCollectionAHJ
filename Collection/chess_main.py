@@ -299,6 +299,7 @@ def boardDisplay():
     pygame.display.flip()
 	
 #==========================================
+#klappt nicht mit formatierung
 #Tkinter pygame stuff
 
 #Tkinter fenster

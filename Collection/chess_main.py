@@ -105,11 +105,14 @@ def main():
 		boardUpdate(move[0],move[1],move[2],move[3])
 		if Player == 1:
 			Player = 2
+			main()
 		else:
 			Player = 1
+			main()
     else:
 		lblp=Label(fenster,text='Falscher Zug')
 		lblp.place(x=80, y=80)
+		main()
 #==========================================
 #funktionen angepasst
 

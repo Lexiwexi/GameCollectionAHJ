@@ -10,7 +10,7 @@ charset = "ABCDEFGH"
     
 #is move x1 y1 to x2 y2 legal?
 def isLegalMove(x1,y1,x2,y2,piece,currentcolor):
-    c = 1
+	c = 1
     if currentcolor != 0:
         if currentcolor == 1:
             c = 1
@@ -102,12 +102,12 @@ def main():
 	boardDisplay()
 	move = playerMove(Player) #x1,y1,x2,y2
    	if isLegalMove(move[0],move[1],move[2],move[3],aboard[move[1]][move[0]][1],Player):
-       		boardUpdate(move[0],move[1],move[2],move[3])
-        	if Player == 1:
+		boardUpdate(move[0],move[1],move[2],move[3])
+		if Player == 1:
 			Player = 2
-        	else:
-            		Player = 1
-    	else:
+		else:
+			Player = 1
+    else:
 		lblp=Label(fenster,text='Falscher Zug')
 		lblp.place(x=80, y=80)
 #==========================================
@@ -122,7 +122,7 @@ def start():
 	
 #beenden
 def schließen():
-    pygame.quit()
+	pygame.quit()
     fenster.destroy()
 
 #Schachbrett
@@ -133,7 +133,7 @@ def erstellen():
     pygame.draw.rect(screen, (30,30,30), (65,65,570,5))
     for a in range(4):
         for b in range(4):
-            x=70+a*140
+			x=70+a*140
             y=140+b*140
             pygame.draw.rect(screen, (30,30,30), (x,y,70,70))
     for a in range(4):
@@ -231,7 +231,7 @@ def playerMove():
 def playerMoveEingabe():
     a=txtx1.get()
     if a!='':
-        txtx1.delete(0, END)
+		txtx1.delete(0, END)
         x1=int(a)
     else:
         txtx1.delete(0, END)

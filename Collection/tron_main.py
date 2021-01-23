@@ -1,11 +1,26 @@
+#==========================================
+# Title:  Tron
+# Author: Megaterion
+#==========================================
+
 import pygame
 import time
 pygame.init()
 
 BLACK = (0, 0, 0)  
 P1_COLOUR = (0, 255, 255) 
-P2_COLOUR = (255, 0, 255) 
+P2_COLOUR = (255, 0, 255)
 
+music = "Tron_Assets/Lightcycle_Race.mp3"
+crash_sound = "Tron_Assets/Crash_sound.mp3" 
+pygame.mixer.init(44100, -16, 2, 1024*4)
+
+lost_font = pygame.font.SysFont("comicsans", 60)
+
+pygame.mixer.music.load(music)
+pygame.mixer.music.play() 
+
+#C:/Users/Megaterion/AppData/Local/Programs/Python/Python39-32/Scripts/GameCollectionAHJ-main/Collection/Lightcycle_Race.wav
 
 class Player:
     def __init__(self, x, y, b, c):
@@ -16,7 +31,7 @@ class Player:
         self.colour = c
         self.boost = False  #ist Boost aktiv
         self.start_boost = time.time()  #kontrolliert die boost dauer
-        self.boosts = 3
+        self.boosttime = 5
         self.rect = pygame.Rect(self.x - 1, self.y - 1, 2, 2) 
 
     def draw(self):
@@ -31,18 +46,16 @@ class Player:
             self.x += self.bearing[0] * 2
             self.y += self.bearing[1] * 2
 
-    def boost(self):
-        if self.boosts > 0:
-            self.boosts -= 1
-            self.boost = True
-            self.start_boost = time.time()
+    def booster(self):
+        if self.boost == True:
+            if self.boosttime > 0:
+                self.start_boost = time.time()
 
 
 def new_game():
     new_p1 = Player(50, HEIGHT / 2, (2, 0), P1_COLOUR)
     new_p2 = Player(WIDTH - 50, HEIGHT / 2, (-2, 0), P2_COLOUR)
     return new_p1, new_p2
-
 
 WIN = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.display.set_caption("Tron")
@@ -54,33 +67,42 @@ offset = 60
 
 font = pygame.font.Font(None, 72)
 
-clock = pygame.time.Clock()  # used to regulate FPS
-check_time = time.time()  # used to check collisions with rects
+clock = pygame.time.Clock()
+check_time = time.time()
 
-objects = list()  # list of all the player objects
-path = list()  # list of all the path rects in the game
-p1 = Player(50, (HEIGHT- offset) / 2, (2, 0), P1_COLOUR)  # creates player
+objects = list()  #Liste mit allen Playern
+path = list()  #Liste mit allen Pfadteilen
+p1 = Player(50, (HEIGHT- offset) / 2, (2, 0), P1_COLOUR)
 p2 = Player(WIDTH - 50, (HEIGHT- offset) / 2, (-2, 0), P2_COLOUR)
 objects.append(p1)
 path.append((p1.rect, '1'))
 objects.append(p2)
 path.append((p2.rect, '2'))
 
-player_score = [0, 0]  # current player score
+player_score = [0, 0]
 
 wall_rects = [pygame.Rect([0, offset, 15, HEIGHT]) , pygame.Rect([0, offset, WIDTH, 15]),\
               pygame.Rect([WIDTH - 15, offset, 15, HEIGHT]),\
-              pygame.Rect([0, HEIGHT - 15, WIDTH, 15])]  # outer walls of window
+              pygame.Rect([0, HEIGHT - 15, WIDTH, 15])]
 
 done = False
 new = False
 
 while not done:
-    for event in pygame.event.get():  # gets all event in last tick
-        if event.type == pygame.QUIT:  # close button pressed
+    for event in pygame.event.get():  #alle events im letzten tick
+        if event.type == pygame.QUIT:
             done = True
-        elif event.type == pygame.KEYDOWN:  # keyboard key pressed
-            # === Player 1 === #
+        elif event.type == pygame.KEYUP:
+            #Player 1
+            if event.key == pygame.K_TAB:
+                objects[0].boost = False
+                objects[0].booster()
+            #Player 2
+            if event.key == pygame.K_TAB:
+                objects[1].boost = False
+                objects[1].booster()
+        elif event.type == pygame.KEYDOWN:
+            #Player 1
             if event.key == pygame.K_w and objects[0].bearing != (0,2):
                 objects[0].bearing = (0, -2)
             elif event.key == pygame.K_s and objects[0].bearing != (0,-2):
@@ -90,8 +112,10 @@ while not done:
             elif event.key == pygame.K_d and objects[0].bearing != (-2,0):
                 objects[0].bearing = (2, 0)
             elif event.key == pygame.K_TAB:
-                objects[0].boost()
-            # === Player 2 === #
+                objects[0].boost = True
+                objects[0].booster()
+                
+            #Player 2
             if event.key == pygame.K_UP and objects[1].bearing != (0,2):
                 objects[1].bearing = (0, -2)
             elif event.key == pygame.K_DOWN and objects[1].bearing != (0,-2):
@@ -101,35 +125,50 @@ while not done:
             elif event.key == pygame.K_RIGHT and objects[1].bearing != (-2,0):
                 objects[1].bearing = (2, 0)
             elif event.key == pygame.K_RSHIFT:
-                objects[1].boost()
+                objects[1].boost = True
+                objects[1].booster()
 
             if event.key == pygame.K_ESCAPE:
                pygame.quit()
+                
 
-    WIN.fill(BLACK)  # clears the WIN
+    WIN.fill(BLACK)  #leert das Fensteer
 
-    for r in wall_rects: pygame.draw.rect(WIN, (42, 42, 42), r, 0)  # draws the walls
+    for r in wall_rects: pygame.draw.rect(WIN, (42, 42, 42), r, 0)  #Mauer erzeugen
 
     for o in objects:
-        if time.time() - o.start_boost >= 0.5:  # limits boost to 0.5s
+        if time.time() - o.start_boost >= o.boosttime:
+            o.boosttime =- time.time() - o.start_boost
             o.boost = False
 
         if (o.rect, '1') in path or (o.rect, '2') in path \
-           or o.rect.collidelist(wall_rects) > -1:  # collided with path or wall
-            # prevent player from hitting the path they just made
+           or o.rect.collidelist(wall_rects) > -1:  #kollide mit einem Pfad
+            #verhindert das der Spieler mit dem eigenen gerade erstellten Pfad kollidiert
             if (time.time() - check_time) >= 0.1:
                 check_time = time.time()
 
                 if o.colour == P1_COLOUR:
                     player_score[1] += 1
-                else: player_score[0] += 1
+                    lost_label = lost_font.render("Spieler 2 gewinnt!", 1, (255,255,255))
+                    WIN.blit(lost_label, (WIDTH/2 - lost_label.get_width()/2, 350))
+                
+                else:
+                    player_score[0] += 1
+                    lost_label = lost_font.render("Spieler 1 gewinnt!", 1, (255,255,255))
+                    WIN.blit(lost_label, (WIDTH/2 - lost_label.get_width()/2, 350))
+                
 
                 new = True
+                pygame.mixer.music.load(crash_sound)
+                pygame.mixer.music.play()
+                
+                pygame.mixer.music.load(music)
+                pygame.mixer.music.play()
                 new_p1, new_p2 = new_game()
                 objects = [new_p1, new_p2]
                 path = [(p1.rect, '1'), (p2.rect, '2')]
                 break
-        else:  # not yet traversed
+        else:
             path.append((o.rect, '1')) if o.colour == P1_COLOUR else path.append((o.rect, '2'))
 
         o.draw()
@@ -137,21 +176,21 @@ while not done:
 
     for r in path:
         if new is True:
-        # empties the path - needs to be here to prevent graphical glitches
+        #löscht die Pfade - muss hier sein um grafikglitches zu vermeiden
             path = []
             new = False
             break
         if r[1] == '1': pygame.draw.rect(WIN, P1_COLOUR, r[0], 0)
         else: pygame.draw.rect(WIN, P2_COLOUR, r[0], 0)
 
-    # display the current score on the WIN
+    #Zeigt den aktuellen score an
     score_text = font.render('{0} : {1}'.format(player_score[0], player_score[1]), 1, (255, 153, 51))
     score_text_pos = score_text.get_rect()
     score_text_pos.centerx = int(WIDTH / 2)
     score_text_pos.centery = int(offset / 2)
     WIN.blit(score_text, score_text_pos)
 
-    pygame.display.flip()  # flips display
-    clock.tick(60)  # regulates FPS
+    pygame.display.flip()
+    clock.tick(60)  # reguliert die FPS
 
 pygame.quit()

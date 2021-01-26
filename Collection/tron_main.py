@@ -9,6 +9,7 @@ import time
 
 #Menu
 mainClock = pygame.time.Clock()
+FPS = 60
 from pygame.locals import *
 pygame.init()
 
@@ -36,7 +37,7 @@ class Player:
     def __init__(self, x, y, b, c):
         self.x = x  #x-Pos
         self.y = y  #y-Pos
-        self.speed = 1  #Geschwindigkeit
+        self.speed = 0.5  #Geschwindigkeit
         self.bearing = b  #Ausrichtung
         self.colour = c
         self.boost = False  #ist Boost aktiv
@@ -49,21 +50,22 @@ class Player:
         pygame.draw.rect(WIN, self.colour, self.rect, 0) 
 
     def move(self):
-        if not self.boost:  #Wenn kein Boost aktiv ist
-            self.x += self.bearing[0]
-            self.y += self.bearing[1]
-        else:               #Wenn Boost aktiv ist
-            self.x += self.bearing[0] * 2
-            self.y += self.bearing[1] * 2
-
+        if self.boost:  #Wenn Boost aktiv ist
+            self.speed = 1
+        else:           #Wenn Boost kein aktiv ist
+            self.speed = 0.5
+                    
+        self.x += self.bearing[0]*self.speed
+        self.y += self.bearing[1]*self.speed
+                       
     def booster(self):
         if self.boost == True:
             if self.boosttime > 0:
                 self.start_boost = time.time()
 
 def new_game():
-    new_p1 = Player(50, HEIGHT / 2, (2, 0), P1_COLOUR)
-    new_p2 = Player(WIDTH - 50, HEIGHT / 2, (-2, 0), P2_COLOUR)
+    new_p1 = Player(WIDTH/3, (HEIGHT-offset) / 2, (2, 0), P1_COLOUR)
+    new_p2 = Player((WIDTH/3)*2, (HEIGHT-offset) / 2, (-2, 0), P2_COLOUR)
     return new_p1, new_p2
 
                 
@@ -110,7 +112,7 @@ def main_menu():
                     click = True
 
         pygame.display.update()
-        mainClock.tick(60)
+        mainClock.tick(FPS)
  
 def game():
     running = True
@@ -123,8 +125,8 @@ def game():
 
         objects = list()  #Liste mit allen Playern
         path = list()  #Liste mit allen Pfadteilen
-        p1 = Player(50, (HEIGHT- offset) / 2, (2, 0), P1_COLOUR)
-        p2 = Player(WIDTH - 50, (HEIGHT- offset) / 2, (-2, 0), P2_COLOUR)
+        p1 = Player(WIDTH/3, (HEIGHT-offset) / 2, (2, 0), P1_COLOUR)
+        p2 = Player((WIDTH/3)*2, (HEIGHT-offset) / 2,(-2, 0), P2_COLOUR)
         objects.append(p1)
         path.append((p1.rect, '1'))
         objects.append(p2)
@@ -194,9 +196,10 @@ def game():
             for r in wall_rects: pygame.draw.rect(WIN, (42, 42, 42), r, 0)  #Mauer erzeugen
 
             for o in objects:
-                if time.time() - o.start_boost >= o.boosttime:
-                    o.boosttime =- time.time() - o.start_boost
-                    o.boost = False
+                if o.boost == True:
+                    if time.time() - o.start_boost >= o.boosttime:
+                        o.boosttime =- time.time() - o.start_boost
+                        o.boost = False
 
                 if (o.rect, '1') in path or (o.rect, '2') in path \
                     or o.rect.collidelist(wall_rects) > -1:  #kollide mit einem Pfad
@@ -246,7 +249,7 @@ def game():
             WIN.blit(score_text, score_text_pos)
 
             pygame.display.flip()
-            mainClock.tick(60)
+            mainClock.tick(FPS)
             
         pygame.display.update()
 
@@ -265,6 +268,6 @@ def options():
                     running = False
         
         pygame.display.update()
-        mainClock.tick(60)
+        mainClock.tick(FPS)
  
 main_menu()

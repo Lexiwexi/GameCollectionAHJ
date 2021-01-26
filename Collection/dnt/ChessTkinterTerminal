@@ -199,7 +199,6 @@ def boardUpdate(x1,y1,x2,y2):
 
 def isLegalMove(x1,y1,x2,y2,piece,currentcolor):
     '''Checks if move from one square to another is legal
-
 Check if move from 'x1','y1' to 'x2','y2' with current player color as 'currentcolor' is legal'''
     c = 1
     if currentcolor != 0:
@@ -211,6 +210,8 @@ Check if move from 'x1','y1' to 'x2','y2' with current player color as 'currentc
     loc1    = aboard[y1][x1]
     loc2    = aboard[y2][x2] 
     if (loc1[0] == currentcolor) and (loc2[0] != currentcolor):
+
+        print(loc1[1])
         
         if loc1[1] == 0: #if piece is Pawn
             if ( (y1 != 1) and (c==1) ) or ( (y1 != 6) and (c==-1) ): #if not in Pawn-Line* (x = 2 for black, x = 7 for white)
@@ -223,50 +224,50 @@ Check if move from 'x1','y1' to 'x2','y2' with current player color as 'currentc
                     print("hell yea")
                     return True
 
-            if loc1[1] == 1: #if piece is Knight
-                if ( (x2 == x1+2)or(x2 == x1-2) ) and ( (y2 == y1+1*c) or (y2 == y1-1*c) ) or ( (x2 == x1+1)or(x2 == x1-1) ) and ( (y2 == y1+2*c) or (y2 == y1-2*c) ):
-                    return True
+        if loc1[1] == 1: #if piece is Knight
+            if ( (x2 == x1+2)or(x2 == x1-2) ) and ( (y2 == y1+1*c) or (y2 == y1-1*c) ) or ( (x2 == x1+1)or(x2 == x1-1) ) and ( (y2 == y1+2*c) or (y2 == y1-2*c) ):
+                return True
 
-            if loc1[1] == 2: #if piece is King
-                if  ( ( (x2==x1+1)or(x2==x1-1) ) or ( (y2==y1+1*c)or(y2==y1-1*c) ) )  or ( ( (x2==x1+1)or(x2==x1-1) ) and ( (y2==y1+1*c)or(y2==y1-1*c) ) ):
-                    return True
+        if loc1[1] == 2: #if piece is King
+            if  ( ( (x2==x1+1)or(x2==x1-1) ) or ( (y2==y1+1*c)or(y2==y1-1*c) ) )  or ( ( (x2==x1+1)or(x2==x1-1) ) and ( (y2==y1+1*c)or(y2==y1-1*c) ) ):
+                return True
 
-            if piece == 3: #if piece is Queen
-                if ( (x2-x1)==(y2-y1) ):
-                    return True
+        if loc1[1] == 3: #if piece is Queen
+            if ( (x2-x1)==(y2-y1) ):
+                return True
 
-                if ( ( (x2-x1) == 0) and ( (y2-y1) != 0) ):
-                    for n in range( ( (y2-y1)*c )-1 ):
-                        if aboard[y1+n+1][x1] != [0,0]:
-                            return False
+            if ( ( (x2-x1) == 0) and ( (y2-y1) != 0) ):
+                for n in range( ( (y2-y1)*c )-1 ):
+                    if aboard[y1+n+1][x1] != [0,0]:
+                        return False
 
-                    return True
-                if ( ( (x2-x1) != 0) and ( (y2-y1) == 0) ):
-                    for n in range(x2-x1-1):
-                        if aboard[y1][x1+n+1] != [0,0]:
-                            return False
-                    return True
+                return True
+            if ( ( (x2-x1) != 0) and ( (y2-y1) == 0) ):
+                for n in range(x2-x1-1):
+                    if aboard[y1][x1+n+1] != [0,0]:
+                        return False
+                return True
 
-            if loc1[1] == 4: #if piece is Bishop
-                if (x2-x1)==(y2-y1):
-                    for n in range( int( (float(x2-x1)**0.5)**2) ):
-                        print(n,'n')
-                    return True
+        if loc1[1] == 4: #if piece is Bishop
+            if (x2-x1)==(y2-y1):
+                for n in range( int( (float(x2-x1)**0.5)**2) ):
+                    print(n,'n')
+                return True
 
-            if loc1[1] == 5: #if piece is Rook
-
-                if ( ( (x2-x1) == 0) and ( (y2-y1) != 0) ): #if only movement in y pos
-                    for n in range( ( (y2-y1)*c )-1 ): #look between y1 and y2 to see if they are full
-                        if aboard[y1+n+1][x1] != [0,0]: #if so, return False
-                            return False
-                    return True
+        if loc1[1] == 5: #if piece is Rook
+            if ( ( (x2-x1) == 0) and ( (y2-y1) != 0) ): #if only movement in y pos
+                for n in range( ( (y2-y1)*c )-1 ): #look between y1 and y2 to see if they are full
+                    if aboard[y1+n+1][x1] != [0,0]: #if so, return False
+                        return False
+                return True
                 
-                if ( ( (x2-x1) != 0) and ( (y2-y1) == 0) ): #if only movement in x pos
-                    for n in range(x2-x1-1): #look between x1 and x2 to see if they are full
-                        if aboard[y1][x1+n+1] != [0,0]: #if so, return False
-                            return False
-                    return True
-
+            if ( ( (x2-x1) != 0) and ( (y2-y1) == 0) ): #if only movement in x pos
+                print('X gon giv it ya')
+                for n in range(x2-x1-1): #look between x1 and x2 to see if they are full
+                    if aboard[y1][x1+n+1] != [0,0]: #if so, return False
+                        return False
+                return True
+                
 def pieceId(array):
     '''Output piece Name
 

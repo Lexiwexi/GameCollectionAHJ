@@ -28,12 +28,9 @@ P1_COLOUR = (0, 255, 255)
 P2_COLOUR = (255, 187, 39)
 P3_COLOUR = (210, 0, 3)
 
-music = "Tron_Assets/Lightcycle_Race.mp3"
-crash_sound = "Tron_Assets/Crash_sound.mp3" 
-pygame.mixer.init(44100, -16, 2, 1024*4)
-
-pygame.mixer.music.load(music)
-pygame.mixer.music.play(-1)
+menu_music = "Tron_Assets/Tron_menu.mp3"
+game_music = "Tron_Assets/Lightcycle_Race.mp3"
+crash_sound = pygame.mixer.Sound("Tron_Assets/Crash_sound.mp3")
 
 class Player:
     def __init__(self, x, y, b, c):
@@ -79,8 +76,10 @@ def draw_text(text, font, color, surface, x, y):
 click = False
  
 def main_menu():
+    pygame.mixer.music.load(menu_music)
+    pygame.mixer.music.play(-1)
+    
     while True:
- 
         WIN.fill(BLACK)
         draw_text('main menu', font, (255, 255, 255), WIN, 20, 20)
  
@@ -109,15 +108,17 @@ def main_menu():
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
- 
+
         pygame.display.update()
         mainClock.tick(60)
  
 def game():
     running = True
 
-    while runnging:
-        clock = pygame.time.Clock()
+    while running:        
+        pygame.mixer.music.load(game_music)
+        pygame.mixer.music.play(-1)
+        
         check_time = time.time()
 
         objects = list()  #Liste mit allen Playern
@@ -135,23 +136,33 @@ def game():
                       pygame.Rect([WIDTH - 15, offset, 15, HEIGHT]),\
                       pygame.Rect([0, HEIGHT - 15, WIDTH, 15])]
         
-        done = False
+        game = True
         new = False
 
-        while not done:
+        while game:
             for event in pygame.event.get():  #alle events im letzten tick
-                if event.type == pygame.QUIT:
-                    done = True
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+                
                 elif event.type == pygame.KEYUP:
                     #Player 1
                     if event.key == pygame.K_TAB:
                         objects[0].boost = False
                         objects[0].booster()
                     #Player 2
-                    if event.key == pygame.K_TAB:
+                    if event.key == pygame.K_RSHIFT:
                         objects[1].boost = False
                         objects[1].booster()
+                        
                 elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        game = False
+                        running = False
+                        
+                        pygame.mixer.music.load(menu_music)
+                        pygame.mixer.music.play(-1)
+                        
                     #Player 1
                     if event.key == pygame.K_w and objects[0].bearing != (0,2):
                         objects[0].bearing = (0, -2)
@@ -164,7 +175,7 @@ def game():
                     elif event.key == pygame.K_TAB:
                         objects[0].boost = True
                         objects[0].booster()
-                
+
                     #Player 2
                     if event.key == pygame.K_UP and objects[1].bearing != (0,2):
                         objects[1].bearing = (0, -2)
@@ -177,9 +188,6 @@ def game():
                     elif event.key == pygame.K_RSHIFT:
                         objects[1].boost = True
                         objects[1].booster()
-
-                    if event.key == pygame.K_ESCAPE:
-                        running = False
 
             WIN.fill(BLACK)  #leert das Fensteer
 
@@ -208,11 +216,9 @@ def game():
                 
 
                         new = True
-                        #pygame.mixer.music.load(crash_sound)
-                        #pygame.mixer.music.play()
-                
-                        #pygame.mixer.music.load(music)
-                        #pygame.mixer.music.play()
+                        
+                        pygame.mixer.Sound.play(crash_sound)
+                        
                         new_p1, new_p2 = new_game()
                         objects = [new_p1, new_p2]
                         path = [(p1.rect, '1'), (p2.rect, '2')]
@@ -240,17 +246,14 @@ def game():
             WIN.blit(score_text, score_text_pos)
 
             pygame.display.flip()
-            clock.tick(60)  # reguliert die FPS
-
-        
-        
-            pygame.display.update()
-
+            mainClock.tick(60)
+            
+        pygame.display.update()
 
 def options():
     running = True
     while running:
-        WIN.fill((0,0,0))
+        WIN.fill(BLACK)
  
         draw_text('options', font, (255, 255, 255), WIN, 20, 20)
         for event in pygame.event.get():

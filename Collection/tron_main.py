@@ -8,6 +8,7 @@ import sys
 import time
 
 #Menu
+click = False
 mainClock = pygame.time.Clock()
 FPS = 60
 from pygame.locals import *
@@ -37,26 +38,23 @@ class Player:
     def __init__(self, x, y, b, c):
         self.x = x  #x-Pos
         self.y = y  #y-Pos
-        self.speed = 0.5  #Geschwindigkeit
+        self.speed = 1  #Geschwindigkeit
         self.bearing = b  #Ausrichtung
         self.colour = c
         self.boost = False  #ist Boost aktiv
         self.start_boost = time.time()  #kontrolliert die boost dauer
-        self.boosttime = 5
-        self.rect = pygame.Rect(self.x - 1, self.y - 1, 2, 2) 
+        self.boosttime = 3
+        self.rect = pygame.Rect(self.x - 1, self.y - 1, 2, 2)
+
+        self.i = False
 
     def draw(self):
         self.rect = pygame.Rect(self.x - 1, self.y - 1, 2, 2)
         pygame.draw.rect(WIN, self.colour, self.rect, 0) 
 
     def move(self):
-        if self.boost:  #Wenn Boost aktiv ist
-            self.speed = 1
-        else:           #Wenn Boost kein aktiv ist
-            self.speed = 0.5
-                    
-        self.x += self.bearing[0]*self.speed
-        self.y += self.bearing[1]*self.speed
+        self.x += self.bearing[0]
+        self.y += self.bearing[1]
                        
     def booster(self):
         if self.boost == True:
@@ -74,8 +72,6 @@ def draw_text(text, font, color, surface, x, y):
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
- 
-click = False
  
 def main_menu():
     pygame.mixer.music.load(menu_music)
@@ -121,8 +117,6 @@ def game():
         pygame.mixer.music.load(game_music)
         pygame.mixer.music.play(-1)
         
-        check_time = time.time()
-
         objects = list()  #Liste mit allen Playern
         path = list()  #Liste mit allen Pfadteilen
         p1 = Player(WIDTH/3, (HEIGHT-offset) / 2, (2, 0), P1_COLOUR)
@@ -151,10 +145,12 @@ def game():
                     #Player 1
                     if event.key == pygame.K_TAB:
                         objects[0].boost = False
+                        objects[0].speed = 1
                         objects[0].booster()
                     #Player 2
                     if event.key == pygame.K_RSHIFT:
                         objects[1].boost = False
+                        objects[1].speed = 1
                         objects[1].booster()
                         
                 elif event.type == pygame.KEYDOWN:
@@ -176,6 +172,7 @@ def game():
                         objects[0].bearing = (2, 0)
                     elif event.key == pygame.K_TAB:
                         objects[0].boost = True
+                        objects[0].speed = 2
                         objects[0].booster()
 
                     #Player 2
@@ -189,24 +186,34 @@ def game():
                         objects[1].bearing = (2, 0)
                     elif event.key == pygame.K_RSHIFT:
                         objects[1].boost = True
+                        objects[1].speed = 2
                         objects[1].booster()
 
             WIN.fill(BLACK)  #leert das Fensteer
 
             for r in wall_rects: pygame.draw.rect(WIN, (42, 42, 42), r, 0)  #Mauer erzeugen
 
-            for o in objects:
+            for o in objects:                
                 if o.boost == True:
                     if time.time() - o.start_boost >= o.boosttime:
                         o.boosttime =- time.time() - o.start_boost
                         o.boost = False
+                        
+                if o.speed == 1:
+                    if o.i == True:
+                        o.draw()
+                        o.move()
+                        o.i = False
+                    else:
+                        o.i = True
+                elif o.speed == 2:
+                    o.draw()
+                    o.move()
 
-                if (o.rect, '1') in path or (o.rect, '2') in path \
-                    or o.rect.collidelist(wall_rects) > -1:  #kollide mit einem Pfad
-                       #verhindert das der Spieler mit dem eigenen gerade erstellten Pfad kollidiert
-                    if (time.time() - check_time) >= 0.1:
-                        check_time = time.time()
-
+                if (o.rect, '1') in path or (o.rect, '2') in path or o.rect.collidelist(wall_rects) > -1:  #kollide mit einem Pfad
+                    #verhindert das der Spieler mit dem eigenen gerade erstellten Pfad kollidiert
+                    if not (o.rect, '1') == path[-3] or (o.rect, '2') == path[-3]:
+                        
                         if o.colour == P1_COLOUR:
                             player_score[1] += 1
                             lost_label = lost_font.render("Spieler 2 gewinnt!", 1, (255,255,255))
@@ -228,9 +235,7 @@ def game():
                         break
                 else:
                     path.append((o.rect, '1')) if o.colour == P1_COLOUR else path.append((o.rect, '2'))
-
-                o.draw()
-                o.move()
+               
 
             for r in path:
                 if new is True:

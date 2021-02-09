@@ -30,12 +30,24 @@ P1_COLOUR = (0, 255, 255)
 P2_COLOUR = (255, 187, 39)
 P3_COLOUR = (210, 0, 3)
 
+player_score = [0, 0]
+
+path = list()  #Liste mit allen Pfadteilen
+
+        
+wall_rects = [pygame.Rect([0, offset, 15, HEIGHT]) , #links
+                      pygame.Rect([0, offset, WIDTH, 15]), #oben
+                      pygame.Rect([WIDTH - 15, offset, 15, HEIGHT]),#rechts
+                      pygame.Rect([0, HEIGHT - 15, WIDTH, 15]) #unten
+                      ]
+
 menu_music = "Tron_Assets/Tron_menu.mp3"
 game_music = "Tron_Assets/Lightcycle_Race.mp3"
 crash_sound = pygame.mixer.Sound("Tron_Assets/Crash_sound.mp3")
 
 class Player:
-    def __init__(self, x, y, b, c):
+    def __init__(self, pID, x, y, b, c):
+        self.pID = pID
         self.x = x  #x-Pos
         self.y = y  #y-Pos
         self.speed = 1  #Geschwindigkeit
@@ -47,24 +59,40 @@ class Player:
         self.rect = pygame.Rect(self.x - 1, self.y - 1, 2, 2)
 
         self.i = False
-
-    def draw(self):
-        self.rect = pygame.Rect(self.x - 1, self.y - 1, 2, 2)
-        pygame.draw.rect(WIN, self.colour, self.rect, 0) 
-
+        
     def move(self):
         self.x += self.bearing[0]
         self.y += self.bearing[1]
-                       
+        
+    def draw(self):
+        self.rect = pygame.Rect(self.x - 1, self.y - 1, 2, 2)
+        pygame.draw.rect(WIN, self.colour, self.rect, 0)
+
+    def coll(self):
+        if (self.rect.collidelist(wall_rects) > -1):
+            if self.colour == P1_COLOUR:
+                player_score[1] += 1
+                lost_label = lost_font.render("Spieler 2 gewinnt!", 1, (255,255,255))
+                WIN.blit(lost_label, (WIDTH/2 - lost_label.get_width()/2, 350))
+                
+            elif self.colour == P2_COLOUR:
+                player_score[0] += 1
+                lost_label = lost_font.render("Spieler 1 gewinnt!", 1, (255,255,255))
+                WIN.blit(lost_label, (WIDTH/2 - lost_label.get_width()/2, 350))
+
+            pygame.mixer.Sound.play(crash_sound)
+            game = False
+        else:
+            path.append((self.rect, self.pID))
+
+            #(o.rect, '1') in path or (o.rect, '2') in path \
+           # or o.rect.collidelist(wall_rects) > -1:
+
     def booster(self):
         if self.boost == True:
             if self.boosttime > 0:
                 self.start_boost = time.time()
 
-def new_game():
-    new_p1 = Player(WIDTH/3, (HEIGHT-offset) / 2, (2, 0), P1_COLOUR)
-    new_p2 = Player((WIDTH/3)*2, (HEIGHT-offset) / 2, (-2, 0), P2_COLOUR)
-    return new_p1, new_p2
 
                 
 def draw_text(text, font, color, surface, x, y):
@@ -116,24 +144,21 @@ def game():
     while running:        
         pygame.mixer.music.load(game_music)
         pygame.mixer.music.play(-1)
-        
+
         objects = list()  #Liste mit allen Playern
         path = list()  #Liste mit allen Pfadteilen
-        p1 = Player(WIDTH/3, (HEIGHT-offset) / 2, (2, 0), P1_COLOUR)
-        p2 = Player((WIDTH/3)*2, (HEIGHT-offset) / 2,(-2, 0), P2_COLOUR)
+
+
+        p1 = Player('1', WIDTH/3, (HEIGHT-offset) / 2, (2, 0), P1_COLOUR)
+        p2 = Player('2', (WIDTH/3)*2, (HEIGHT-offset) / 2,(-2, 0), P2_COLOUR)
         objects.append(p1)
-        path.append((p1.rect, '1'))
+        path.append((p1.rect, p1.pID))
         objects.append(p2)
-        path.append((p2.rect, '2'))
+        path.append((p2.rect, p2.pID))
 
-        player_score = [35, 60]
-
-        wall_rects = [pygame.Rect([0, offset, 15, HEIGHT]) , pygame.Rect([0, offset, WIDTH, 15]),\
-                      pygame.Rect([WIDTH - 15, offset, 15, HEIGHT]),\
-                      pygame.Rect([0, HEIGHT - 15, WIDTH, 15])]
+        
         
         game = True
-        new = False
 
         while game:
             for event in pygame.event.get():  #alle events im letzten tick
@@ -193,7 +218,7 @@ def game():
 
             for r in wall_rects: pygame.draw.rect(WIN, (42, 42, 42), r, 0)  #Mauer erzeugen
 
-            for o in objects:                
+            for o in objects:
                 if o.boost == True:
                     if time.time() - o.start_boost >= o.boosttime:
                         o.boosttime =- time.time() - o.start_boost
@@ -201,51 +226,28 @@ def game():
                         
                 if o.speed == 1:
                     if o.i == True:
-                        o.draw()
                         o.move()
+                        o.draw()
+                        o.coll()
                         o.i = False
                     else:
                         o.i = True
                 elif o.speed == 2:
-                    o.draw()
                     o.move()
+                    o.draw()
+                    o.coll()
 
-                if (o.rect, '1') in path or (o.rect, '2') in path or o.rect.collidelist(wall_rects) > -1:  #kollide mit einem Pfad
-                    #verhindert das der Spieler mit dem eigenen gerade erstellten Pfad kollidiert
-                    if not (o.rect, '1') == path[-3] or (o.rect, '2') == path[-3]:
-                        
-                        if o.colour == P1_COLOUR:
-                            player_score[1] += 1
-                            lost_label = lost_font.render("Spieler 2 gewinnt!", 1, (255,255,255))
-                            WIN.blit(lost_label, (WIDTH/2 - lost_label.get_width()/2, 350))
-                
-                        else:
-                            player_score[0] += 1
-                            lost_label = lost_font.render("Spieler 1 gewinnt!", 1, (255,255,255))
-                            WIN.blit(lost_label, (WIDTH/2 - lost_label.get_width()/2, 350))
-                
-
-                        new = True
-                        
-                        pygame.mixer.Sound.play(crash_sound)
-                        
-                        new_p1, new_p2 = new_game()
-                        objects = [new_p1, new_p2]
-                        path = [(p1.rect, '1'), (p2.rect, '2')]
-                        break
-                else:
-                    path.append((o.rect, '1')) if o.colour == P1_COLOUR else path.append((o.rect, '2'))
-               
-
+            
             for r in path:
+                """
                 if new is True:
                 #löscht die Pfade - muss hier sein um grafikglitches zu vermeiden
                     path = []
                     new = False
-                    break
+                    break"""
                 if r[1] == '1': pygame.draw.rect(WIN, P1_COLOUR, r[0], 0)
                 else: pygame.draw.rect(WIN, P2_COLOUR, r[0], 0)
-
+            
             #Zeigt den aktuellen score an
             score_text = font.render('{0} : {1}'.format(player_score[0], player_score[1]), 1, (255, 153, 51))
             score_text_pos = score_text.get_rect()

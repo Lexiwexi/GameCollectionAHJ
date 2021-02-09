@@ -18,12 +18,12 @@ class Player:
         self.speed = 1  #Geschwindigkeit
         self.bearing = b  #Ausrichtung
         self.colour = c
-        self.boost = False  #ist Boost aktiv
-        self.start_boost = time.time()  #kontrolliert die boost dauer
-        self.boosttime = 3
+        self.boost = False
+        self.boostlimit = 100
         self.rect = pygame.Rect(self.x - 1, self.y - 1, 2, 2)
 
         self.i = False
+        self.j = 0
         
     def move(self):
         self.x += self.bearing[0]
@@ -50,26 +50,16 @@ class Player:
                 WIN.blit(lost_label, (WIDTH/2 - lost_label.get_width()/2, 350))
 
             pygame.mixer.Sound.play(crash_sound)
+            objects.clear()
+            path.clear()
             pygame.display.update()
             pygame.time.wait(1500)
-            path.clear()
             summonPlayer()
-            
-
-            
+        
         else:
             path.append(r)
 
-            #(o.rect, '1') in path or (o.rect, '2') in path \
-           # or o.rect.collidelist(wall_rects) > -1:
-
-    def booster(self):
-        if self.boost == True:
-            if self.boosttime > 0:
-                self.start_boost = time.time()
-
 def summonPlayer():
-    objects.clear()
     p1 = Player('1', WIDTH/3, (HEIGHT-offset) / 2, (2, 0), P1_COLOUR)
     p2 = Player('2', (WIDTH/3)*2, (HEIGHT-offset) / 2,(-2, 0), P2_COLOUR)
     objects.append(p1)
@@ -139,13 +129,9 @@ def game():
                     #Player 1
                     if event.key == pygame.K_TAB:
                         objects[0].boost = False
-                        objects[0].speed = 1
-                        objects[0].booster()
                     #Player 2
                     if event.key == pygame.K_RSHIFT:
                         objects[1].boost = False
-                        objects[1].speed = 1
-                        objects[1].booster()
                         
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
@@ -165,10 +151,8 @@ def game():
                     elif event.key == pygame.K_d and objects[0].bearing != (-2,0):
                         objects[0].bearing = (2, 0)
                     elif event.key == pygame.K_TAB:
-                        objects[0].boost = True
-                        objects[0].speed = 2
-                        objects[0].booster()
-
+                            objects[0].boost = True
+                                          
                     #Player 2
                     if event.key == pygame.K_UP and objects[1].bearing != (0,2):
                         objects[1].bearing = (0, -2)
@@ -180,18 +164,26 @@ def game():
                         objects[1].bearing = (2, 0)
                     elif event.key == pygame.K_RSHIFT:
                         objects[1].boost = True
-                        objects[1].speed = 2
-                        objects[1].booster()
-
+                    
             WIN.fill(BLACK)  #leert das Fensteer
 
             for w in wall_rects: pygame.draw.rect(WIN, (42, 42, 42), w, 0)  #Mauer erzeugen
 
             for o in objects:
                 if o.boost == True:
-                    if time.time() - o.start_boost >= o.boosttime:
-                        o.boosttime =- time.time() - o.start_boost
+                    if o.boostlimit - 1 >= 0:
+                        o.boostlimit = o.boostlimit - 1
+                        o.speed = 2
+                    else:
                         o.boost = False
+                else:
+                    o.speed = 1
+                    if o.j != 20:
+                        o.j = o.j + 1
+                    else:  
+                        if o.boostlimit + 1 <= 100:
+                            o.boostlimit = o.boostlimit + 1
+                        o.j = 0
                         
                 if o.speed == 1:
                     if o.i == True:
@@ -209,6 +201,13 @@ def game():
             for r in path:
                 pygame.draw.rect(WIN, r[0], (r[1], r[2], 2, 2), 0)
 
+
+            boost_text = boost_font.render('{0}                           {1}'.format(objects[0].boostlimit, objects[1].boostlimit), 1, (255, 153, 51))
+            boost_text_pos = boost_text.get_rect()
+            boost_text_pos.centerx = int(WIDTH / 2)
+            boost_text_pos.centery = int(offset / 2)
+            WIN.blit(boost_text, boost_text_pos)
+            
             #Zeigt den aktuellen score an
             score_text = font.render('{0} : {1}'.format(player_score[0], player_score[1]), 1, (255, 153, 51))
             score_text_pos = score_text.get_rect()
@@ -243,7 +242,7 @@ def options():
 #Menu
 click = False
 mainClock = pygame.time.Clock()
-FPS = 60
+FPS = 120
 pygame.init()
 
 WIN = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -251,7 +250,8 @@ pygame.display.set_caption("Tron")
 surface = pygame.display.get_surface() 
 WIDTH, HEIGHT = surface.get_width(), surface.get_height()
 offset = 60
- 
+
+boost_font = pygame.font.SysFont(None, 36)
 font = pygame.font.SysFont(None, 72)
 lost_font = pygame.font.SysFont("comicsans", 60)
 

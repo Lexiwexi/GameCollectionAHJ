@@ -6,44 +6,9 @@
 import pygame
 import sys
 import time
-
-#Menu
-click = False
-mainClock = pygame.time.Clock()
-FPS = 60
 from pygame.locals import *
-pygame.init()
-
-WIN = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-pygame.display.set_caption("Tron")
-surface = pygame.display.get_surface() 
-WIDTH, HEIGHT = surface.get_width(), surface.get_height()
-offset = 60
- 
-font = pygame.font.SysFont(None, 72)
-lost_font = pygame.font.SysFont("comicsans", 60)
 
 
-#Game
-BLACK = (0, 0, 0)  
-P1_COLOUR = (0, 255, 255) 
-P2_COLOUR = (255, 187, 39)
-P3_COLOUR = (210, 0, 3)
-
-player_score = [0, 0]
-
-path = list()  #Liste mit allen Pfadteilen
-
-        
-wall_rects = [pygame.Rect([0, offset, 15, HEIGHT]) , #links
-                      pygame.Rect([0, offset, WIDTH, 15]), #oben
-                      pygame.Rect([WIDTH - 15, offset, 15, HEIGHT]),#rechts
-                      pygame.Rect([0, HEIGHT - 15, WIDTH, 15]) #unten
-                      ]
-
-menu_music = "Tron_Assets/Tron_menu.mp3"
-game_music = "Tron_Assets/Lightcycle_Race.mp3"
-crash_sound = pygame.mixer.Sound("Tron_Assets/Crash_sound.mp3")
 
 class Player:
     def __init__(self, pID, x, y, b, c):
@@ -69,7 +34,11 @@ class Player:
         pygame.draw.rect(WIN, self.colour, self.rect, 0)
 
     def coll(self):
-        if (self.rect.collidelist(wall_rects) > -1):
+        r = [self.colour, int(self.x - 1), int(self.y - 1)]
+        r1 = [P1_COLOUR, int(self.x - 1), int(self.y - 1)]
+        r2 = [P2_COLOUR, int(self.x - 1), int(self.y - 1)]
+        
+        if self.rect.collidelist(wall_rects) > -1 or r1 in path or r2 in path:
             if self.colour == P1_COLOUR:
                 player_score[1] += 1
                 lost_label = lost_font.render("Spieler 2 gewinnt!", 1, (255,255,255))
@@ -81,9 +50,15 @@ class Player:
                 WIN.blit(lost_label, (WIDTH/2 - lost_label.get_width()/2, 350))
 
             pygame.mixer.Sound.play(crash_sound)
-            game = False
+            pygame.display.update()
+            pygame.time.wait(1500)
+            path.clear()
+            summonPlayer()
+            
+
+            
         else:
-            path.append((self.rect, self.pID))
+            path.append(r)
 
             #(o.rect, '1') in path or (o.rect, '2') in path \
            # or o.rect.collidelist(wall_rects) > -1:
@@ -93,7 +68,12 @@ class Player:
             if self.boosttime > 0:
                 self.start_boost = time.time()
 
-
+def summonPlayer():
+    objects.clear()
+    p1 = Player('1', WIDTH/3, (HEIGHT-offset) / 2, (2, 0), P1_COLOUR)
+    p2 = Player('2', (WIDTH/3)*2, (HEIGHT-offset) / 2,(-2, 0), P2_COLOUR)
+    objects.append(p1)
+    objects.append(p2)
                 
 def draw_text(text, font, color, surface, x, y):
     textobj = font.render(text, 1, color)
@@ -140,25 +120,14 @@ def main_menu():
  
 def game():
     running = True
+    
 
     while running:        
         pygame.mixer.music.load(game_music)
         pygame.mixer.music.play(-1)
 
-        objects = list()  #Liste mit allen Playern
-        path = list()  #Liste mit allen Pfadteilen
-
-
-        p1 = Player('1', WIDTH/3, (HEIGHT-offset) / 2, (2, 0), P1_COLOUR)
-        p2 = Player('2', (WIDTH/3)*2, (HEIGHT-offset) / 2,(-2, 0), P2_COLOUR)
-        objects.append(p1)
-        path.append((p1.rect, p1.pID))
-        objects.append(p2)
-        path.append((p2.rect, p2.pID))
-
-        
-        
         game = True
+        summonPlayer()
 
         while game:
             for event in pygame.event.get():  #alle events im letzten tick
@@ -216,7 +185,7 @@ def game():
 
             WIN.fill(BLACK)  #leert das Fensteer
 
-            for r in wall_rects: pygame.draw.rect(WIN, (42, 42, 42), r, 0)  #Mauer erzeugen
+            for w in wall_rects: pygame.draw.rect(WIN, (42, 42, 42), w, 0)  #Mauer erzeugen
 
             for o in objects:
                 if o.boost == True:
@@ -236,18 +205,10 @@ def game():
                     o.move()
                     o.draw()
                     o.coll()
-
-            
+                    
             for r in path:
-                """
-                if new is True:
-                #löscht die Pfade - muss hier sein um grafikglitches zu vermeiden
-                    path = []
-                    new = False
-                    break"""
-                if r[1] == '1': pygame.draw.rect(WIN, P1_COLOUR, r[0], 0)
-                else: pygame.draw.rect(WIN, P2_COLOUR, r[0], 0)
-            
+                pygame.draw.rect(WIN, r[0], (r[1], r[2], 2, 2), 0)
+
             #Zeigt den aktuellen score an
             score_text = font.render('{0} : {1}'.format(player_score[0], player_score[1]), 1, (255, 153, 51))
             score_text_pos = score_text.get_rect()
@@ -276,5 +237,45 @@ def options():
         
         pygame.display.update()
         mainClock.tick(FPS)
+
+###############
+        
+#Menu
+click = False
+mainClock = pygame.time.Clock()
+FPS = 60
+pygame.init()
+
+WIN = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+pygame.display.set_caption("Tron")
+surface = pygame.display.get_surface() 
+WIDTH, HEIGHT = surface.get_width(), surface.get_height()
+offset = 60
  
+font = pygame.font.SysFont(None, 72)
+lost_font = pygame.font.SysFont("comicsans", 60)
+
+
+#Game
+BLACK = (0, 0, 0)  
+P1_COLOUR = (0, 255, 255) 
+P2_COLOUR = (255, 187, 39)
+P3_COLOUR = (210, 0, 3)
+
+player_score = [0, 0]
+
+path = []  #Liste mit allen Pfadteilen
+objects = []  #Liste mit allen Playern
+        
+wall_rects = [pygame.Rect([0, offset, 15, HEIGHT]) , #links
+                      pygame.Rect([0, offset, WIDTH, 15]), #oben
+                      pygame.Rect([WIDTH - 15, offset, 15, HEIGHT]),#rechts
+                      pygame.Rect([0, HEIGHT - 15, WIDTH, 15]) #unten
+                      ]
+
+menu_music = "Tron_Assets/Tron_menu.mp3"
+game_music = "Tron_Assets/Lightcycle_Race.mp3"
+crash_sound = pygame.mixer.Sound("Tron_Assets/Crash_sound.mp3")
+
+###############
 main_menu()

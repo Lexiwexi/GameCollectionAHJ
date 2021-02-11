@@ -19,7 +19,7 @@ class Player:
         self.bearing = b  #Ausrichtung
         self.colour = c
         self.boost = False
-        self.boostlimit = 100
+        self.boostlimit = 300
         self.rect = pygame.Rect(self.x - 1, self.y - 1, 2, 2)
 
         self.i = False
@@ -33,12 +33,8 @@ class Player:
         self.rect = pygame.Rect(self.x - 1, self.y - 1, 2, 2)
         pygame.draw.rect(WIN, self.colour, self.rect, 0)
 
-    def coll(self):
-        r = [self.colour, int(self.x - 1), int(self.y - 1)]
-        r1 = [P1_COLOUR, int(self.x - 1), int(self.y - 1)]
-        r2 = [P2_COLOUR, int(self.x - 1), int(self.y - 1)]
-        
-        if self.rect.collidelist(wall_rects) > -1 or r1 in path or r2 in path:
+    def coll(self): 
+        if self.rect.collidelist(wall_rects) > -1 or self.rect.collidelist(path) > -1:
             if self.colour == P1_COLOUR:
                 player_score[1] += 1
                 lost_label = lost_font.render("Spieler 2 gewinnt!", 1, (255,255,255))
@@ -57,7 +53,7 @@ class Player:
             summonPlayer()
         
         else:
-            path.append(r)
+            path.append(self.rect)
 
 def summonPlayer():
     p1 = Player('1', WIDTH/3, (HEIGHT-offset) / 2, (2, 0), P1_COLOUR)
@@ -167,7 +163,18 @@ def game():
                     
             WIN.fill(BLACK)  #leert das Fensteer
 
-            for w in wall_rects: pygame.draw.rect(WIN, (42, 42, 42), w, 0)  #Mauer erzeugen
+            for w in wall_rects:
+                pygame.draw.rect(WIN, (42, 42, 42), w, 0)  #Mauer erzeugen
+
+            m = 0
+            for p in path:
+                if m == 0:
+                    pygame.draw.rect(WIN, P1_COLOUR, p, 0)
+                elif m%2 == 0:
+                    pygame.draw.rect(WIN, P1_COLOUR, p, 0)
+                else:
+                    pygame.draw.rect(WIN, P2_COLOUR, p, 0)
+                m = m+1
 
             for o in objects:
                 if o.boost == True:
@@ -181,7 +188,7 @@ def game():
                     if o.j != 20:
                         o.j = o.j + 1
                     else:  
-                        if o.boostlimit + 1 <= 100:
+                        if o.boostlimit + 1 <= 300:
                             o.boostlimit = o.boostlimit + 1
                         o.j = 0
                         
@@ -197,9 +204,7 @@ def game():
                     o.move()
                     o.draw()
                     o.coll()
-                    
-            for r in path:
-                pygame.draw.rect(WIN, r[0], (r[1], r[2], 2, 2), 0)
+          
 
 
             boost_text = boost_font.render('{0}                           {1}'.format(objects[0].boostlimit, objects[1].boostlimit), 1, (255, 153, 51))
@@ -253,7 +258,7 @@ offset = 60
 
 boost_font = pygame.font.SysFont(None, 36)
 font = pygame.font.SysFont(None, 72)
-lost_font = pygame.font.SysFont("comicsans", 60)
+lost_font = pygame.font.SysFont(None, 60)
 
 
 #Game

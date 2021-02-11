@@ -48,12 +48,14 @@ class Player:
             pygame.mixer.Sound.play(crash_sound)
             objects.clear()
             path.clear()
+            path_colour.clear()
             pygame.display.update()
             pygame.time.wait(1500)
             summonPlayer()
         
         else:
             path.append(self.rect)
+            path_colour.append(self.colour)
 
 def summonPlayer():
     p1 = Player('1', WIDTH/3, (HEIGHT-offset) / 2, (2, 0), P1_COLOUR)
@@ -166,15 +168,11 @@ def game():
             for w in wall_rects:
                 pygame.draw.rect(WIN, (42, 42, 42), w, 0)  #Mauer erzeugen
 
-            m = 0
-            for p in path:
-                if m == 0:
-                    pygame.draw.rect(WIN, P1_COLOUR, p, 0)
-                elif m%2 == 0:
-                    pygame.draw.rect(WIN, P1_COLOUR, p, 0)
+            for p in range(len(path)):
+                if path_colour[p] == P1_COLOUR:
+                    pygame.draw.rect(WIN, P1_COLOUR, path[p], 0)
                 else:
-                    pygame.draw.rect(WIN, P2_COLOUR, p, 0)
-                m = m+1
+                    pygame.draw.rect(WIN, P2_COLOUR, path[p], 0)
 
             for o in objects:
                 if o.boost == True:
@@ -206,7 +204,7 @@ def game():
                     o.coll()
           
 
-
+            #zeigt die verbleibende Boostdauer an
             boost_text = boost_font.render('{0}                           {1}'.format(objects[0].boostlimit, objects[1].boostlimit), 1, (255, 153, 51))
             boost_text_pos = boost_text.get_rect()
             boost_text_pos.centerx = int(WIDTH / 2)
@@ -270,6 +268,7 @@ P3_COLOUR = (210, 0, 3)
 player_score = [0, 0]
 
 path = []  #Liste mit allen Pfadteilen
+path_colour = [] #Liste mit Farben der Pfadteile
 objects = []  #Liste mit allen Playern
         
 wall_rects = [pygame.Rect([0, offset, 15, HEIGHT]) , #links

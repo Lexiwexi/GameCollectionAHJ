@@ -297,4 +297,60 @@ while game == 1: #Gameloop
     Gt=1
     sp.call('clear',shell=True)
 
-#credit goes to Lexi(, that's me)    
+#credit goes to Lexi(, that's me) 
+
+import random
+import time
+from tkinter import *
+import pygame
+
+S = 0
+g = 0
+
+global Deck
+Deck=['Karo7','Karo8','Karo9','Karo10','KaroB','KaroD','KaroK','KaroA','Herz7','Herz8','Herz9','Herz10','HerzB','HerzD,','HerzK','HerzA','Pik7','Pik8','Pik9','Pik10','PikB','PikD','PikK','PikA','Kreuz7','Kreuz8','Kreuz9','Kreuz10','KreuzB','KreuzD','KreuzK','KreuzA']
+global Stappel
+Stappel=[]
+
+def mischen():
+    for i in range(len(Deck)+100):
+        j=random.randrange(len(Deck))
+        jtwo = random.randrange(len(Deck))
+
+        tempf = Deck[j]
+        tempz = Deck[jtwo]
+
+        Deck[j] = tempz
+        Deck[jtwo] = tempf
+
+#beenden
+def schließen():
+    pygame.quit()
+    fenster.destroy()
+
+def legen():
+    a = Deck[0]
+    Stappel.append(a)
+    del Deck[0]
+    print(Stappel[len(Stappel)-1])
+
+def spiel():
+    mischen()
+    for x in range(3):
+        legen()    
+
+#Tkinter fenster
+fenster=Tk()
+fenster.geometry("500x450")
+#label Schach
+lbl1=Label(fenster,text='Knack')
+#label Player
+lblp=Label(fenster,text='Am Zug:')
+lblp.place(x=10, y=80)
+#Button Start
+btn_erstellen=Button(fenster,text="Start",command=spiel)
+btn_erstellen.place(x=10, y=410)
+#Buttonende
+btn_ende=Button(fenster,text="Ende",command=schließen)
+btn_ende.place(x=90, y=410)
+

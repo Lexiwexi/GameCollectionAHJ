@@ -4,25 +4,24 @@ Games planned/ realized:
 - Chess (WiP)
 - Card Games (On Ice)
 - Space Invaders
-- Tic-Tac-Toe
 - Tron (WiP)
 
 ## Games
 
 ### Chess
-- A simple game of chess with a graphical interface written in python using tkinter and pygame. 
+A simple game of chess with a graphical interface written in python using tkinter and pygame. 
 
 #### Usage
 - Todo
 
 ### Space Invaders
-- Todo
+Todo
 
 ### Tic-Tac-Toe
-- Todo
+Todo
 
 ### Tron
-- Todo
+Todo
 
 ## Installation
 

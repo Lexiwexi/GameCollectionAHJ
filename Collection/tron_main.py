@@ -19,6 +19,7 @@ class Player:
         self.bearing = b  #Ausrichtung
         self.colour = c
         self.boost = False
+        self.laser = True
         self.boostlimit = 300
         self.rect = pygame.Rect(self.x - 1, self.y - 1, 2, 2)
 
@@ -56,6 +57,27 @@ class Player:
         else:
             path.append(self.rect)
             path_colour.append(self.colour)
+
+    def shoot(self):
+        self.Laser = False
+        print("shoot")
+
+        pygame.draw.rect(WIN, LASER_COLOUR, [100, 100, 200, 200], 0)
+        
+        """
+        if self.bearing == (0,2):                   #oben
+            for p in range(len(path)):
+                if: path[p] == pygame.Rect(self.x - 1, self.y - 1, 2, 2)
+        elif self.bearing == (0,-2):                #unten
+            
+        elif self.bearing == (2,0):                 #links
+            
+        elif self.bearing == (-2,0):                #rechts
+
+        """
+            
+        
+        
 
 def summonPlayer():
     p1 = Player('1', WIDTH/3, (HEIGHT-offset) / 2, (2, 0), P1_COLOUR)
@@ -150,6 +172,9 @@ def game():
                         objects[0].bearing = (2, 0)
                     elif event.key == pygame.K_TAB:
                             objects[0].boost = True
+                    elif event.key == pygame.K_q:
+                            if objects[0].laser == True:
+                                objects[0].shoot()
                                           
                     #Player 2
                     if event.key == pygame.K_UP and objects[1].bearing != (0,2):
@@ -162,6 +187,9 @@ def game():
                         objects[1].bearing = (2, 0)
                     elif event.key == pygame.K_RSHIFT:
                         objects[1].boost = True
+                    elif event.key == pygame.K_q:
+                            if objects[1].laser == True:
+                                objects[1].shoot()
                     
             WIN.fill(BLACK)  #leert das Fensteer
 
@@ -202,7 +230,8 @@ def game():
                     o.move()
                     o.draw()
                     o.coll()
-          
+
+            pygame.draw.rect(WIN, LASER_COLOUR, [100, 100, 200, 200], 0)
 
             #zeigt die verbleibende Boostdauer an
             boost_text = boost_font.render('{0}                           {1}'.format(objects[0].boostlimit, objects[1].boostlimit), 1, (255, 153, 51))
@@ -260,7 +289,8 @@ lost_font = pygame.font.SysFont(None, 60)
 
 
 #Game
-BLACK = (0, 0, 0)  
+BLACK = (0, 0, 0)
+LASER_COLOUR = pygame.Color(255, 255, 255)
 P1_COLOUR = (0, 255, 255) 
 P2_COLOUR = (255, 187, 39)
 P3_COLOUR = (210, 0, 3)

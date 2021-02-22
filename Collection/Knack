@@ -7,7 +7,7 @@ S = 0
 g = 0
 
 global Deck
-Deck=['Karo7','Karo8','Karo9','Karo10','KaroB','KaroD','KaroK','KaroA','Herz7','Herz8','Herz9','Herz10','HerzB','HerzD,','HerzK','HerzA','Pik7','Pik8','Pik9','Pik10','PikB','PikD','PikK','PikA','Kreuz7','Kreuz8','Kreuz9','Kreuz10','KreuzB','KreuzD','KreuzK','KreuzA']
+Deck=['Karo 7','Karo 8','Karo 9','Karo 10','Karo B','Karo D','Karo K','Karo A','Herz 7','Herz 8','Herz 9','Herz 10','Herz B','Herz D,','Herz K','Herz A','Pik 7','Pik 8','Pik 9','Pik 10','Pik B','Pik D','Pik K','Pik A','Kreuz 7','Kreuz 8','Kreuz 9','Kreuz 10','Kreuz B','Kreuz D','Kreuz K','Kreuz A']
 global Stappel
 Stappel=[]
 global Spieler
@@ -20,6 +20,10 @@ global Spieler3
 Spieler3 = []
 global Spieler4
 Spieler4 = []
+global Karte
+Karte=['']
+global Kartenart
+Kartenart=''
 
 def mischen():
     for i in range(len(Deck)+100):
@@ -31,6 +35,19 @@ def mischen():
 
         Deck[j] = tempz
         Deck[jtwo] = tempf
+
+def erkennen(Karte):
+    a=Karte[0]
+    b=a.split()
+    if b[0]=='Karo':
+        Kartenart='Karo'
+    if b[0]=='Herz':
+        Kartenart='Herz'
+    if b[0]=='Pik':
+        Kartenart='Pik'
+    if b[0]=='Kreuz':
+        Kartenart='Kreuz'
+    return Kartenart
 
 #beenden
 def schließen():
@@ -133,7 +150,10 @@ def runde(Spieler):
         
     Stappel[Variable1]=Karte2tausch
     Spieler1[Variable2]= Karte1tausch
-
+    #------------------------------------------
+    Karte[0]=Spieler1[0]
+    erkennen(Karte)
+    #------------------------------------------
     weiter=False
 
     #Spieler2
@@ -238,64 +258,76 @@ def runde(Spieler):
 def Punkterechner():
     Punkte1=0
     for a in range(3):
-        if Spieler1[a]=='Karo10' or Spieler1[a]=='KaroB' or Spieler1[a]=='KaroD' or Spieler1[a]=='KaroK' or Spieler1[a]=='KaroA' or Spieler1[a]=='Herz10' or Spieler1[a]=='HerzB' or Spieler1[a]=='HerzD' or Spieler1[a]=='HerzK'or Spieler1[a]=='HerzA'or Spieler1[a]=='Pik10'or Spieler1[a]=='PikB'or Spieler1[a]=='PikD'or Spieler1[a]=='PikK'or Spieler1[a]=='PikA'or Spieler1[a]=='Kreuz10'or Spieler1[a]=='KreuzB'or Spieler1[a]=='KreuzD'or Spieler1[a]=='KreuzK'or Spieler1[a]=='KreuzA':
+        if Spieler1[a]=='Karo A' or Spieler1[a]=='Herz A'or Spieler1[a]=='Pik A'or Spieler1[a]=='Kreuz A':
+            Punkte1=Punkte1+11
+            print('+11')
+        if Spieler1[a]=='Karo 10' or Spieler1[a]=='Karo B' or Spieler1[a]=='Karo D' or Spieler1[a]=='Karo K' or  Spieler1[a]=='Herz 10' or Spieler1[a]=='Herz B' or Spieler1[a]=='Herz D' or Spieler1[a]=='Herz K'or Spieler1[a]=='Pik 10'or Spieler1[a]=='Pik B'or Spieler1[a]=='Pik D'or Spieler1[a]=='Pik K'or Spieler1[a]=='Kreuz 10'or Spieler1[a]=='Kreuz B'or Spieler1[a]=='Kreuz D'or Spieler1[a]=='Kreuz K':
             Punkte1=Punkte1+10
             print('+10')
-        if Spieler1[a]=='Karo7'or Spieler1[a]=='Herz7'or Spieler1[a]=='Kreuz7'or Spieler1[a]=='Pik7':
+        if Spieler1[a]=='Karo 7'or Spieler1[a]=='Herz 7'or Spieler1[a]=='Kreuz 7'or Spieler1[a]=='Pik 7':
             Punkte1=Punkte1+7
             print('+7')
-        if Spieler1[a]=='Karo8'or Spieler1[a]=='Herz8'or Spieler1[a]=='Kreuz8'or Spieler1[a]=='Pik8':
+        if Spieler1[a]=='Karo 8'or Spieler1[a]=='Herz 8'or Spieler1[a]=='Kreuz 8'or Spieler1[a]=='Pik 8':
             Punkte1=Punkte1+8
             print('+8')
-        if Spieler1[a]=='Karo9'or Spieler1[a]=='Herz9'or Spieler1[a]=='Kreuz9'or Spieler1[a]=='Pik9':
+        if Spieler1[a]=='Karo 9'or Spieler1[a]=='Herz 9'or Spieler1[a]=='Kreuz 9'or Spieler1[a]=='Pik 9':
             Punkte1=Punkte1+9
             print('+9')
     print(Punkte1)
 
     Punkte2=0
     for a in range(3):
-        if Spieler2[a]=='Karo10' or Spieler2[a]=='KaroB' or Spieler2[a]=='KaroD' or Spieler2[a]=='KaroK' or Spieler2[a]=='KaroA' or Spieler2[a]=='Herz10' or Spieler2[a]=='HerzB' or Spieler2[a]=='HerzD' or Spieler2[a]=='HerzK'or Spieler2[a]=='HerzA'or Spieler2[a]=='Pik10'or Spieler2[a]=='PikB'or Spieler2[a]=='PikD'or Spieler2[a]=='PikK'or Spieler2[a]=='PikA'or Spieler2[a]=='Kreuz10'or Spieler2[a]=='KreuzB'or Spieler2[a]=='KreuzD'or Spieler2[a]=='KreuzK'or Spieler2[a]=='KreuzA':
+        if Spieler2[a]=='Karo A' or Spieler2[a]=='Herz A'or Spieler2[a]=='Pik A'or Spieler2[a]=='Kreuz A':
+            Punkte2=Punkte2+11
+            print('+11')
+        if Spieler2[a]=='Karo 10' or Spieler2[a]=='Karo B' or Spieler2[a]=='Karo D' or Spieler2[a]=='Karo K' or Spieler2[a]=='Herz 10' or Spieler2[a]=='Herz B' or Spieler2[a]=='Herz D' or Spieler2[a]=='Herz K'or Spieler2[a]=='Pik 10'or Spieler2[a]=='Pik B'or Spieler2[a]=='Pik D'or Spieler2[a]=='Pik K'or Spieler2[a]=='Kreuz 10'or Spieler2[a]=='Kreuz B'or Spieler2[a]=='Kreuz D'or Spieler2[a]=='Kreuz K':
             Punkte2=Punkte2+10
             print('+10')
-        if Spieler2[a]=='Karo7'or Spieler2[a]=='Herz7'or Spieler2[a]=='Kreuz7'or Spieler2[a]=='Pik7':
+        if Spieler2[a]=='Karo 7'or Spieler2[a]=='Herz 7'or Spieler2[a]=='Kreuz 7'or Spieler2[a]=='Pik 7':
             Punkte2=Punkte2+7
             print('+7')
-        if Spieler2[a]=='Karo8'or Spieler2[a]=='Herz8'or Spieler2[a]=='Kreuz8'or Spieler2[a]=='Pik8':
+        if Spieler2[a]=='Karo 8'or Spieler2[a]=='Herz 8'or Spieler2[a]=='Kreuz 8'or Spieler2[a]=='Pik 8':
             Punkte2=Punkte2+8
             print('+8')
-        if Spieler2[a]=='Karo9'or Spieler2[a]=='Herz9'or Spieler2[a]=='Kreuz9'or Spieler2[a]=='Pik9':
+        if Spieler2[a]=='Karo 9'or Spieler2[a]=='Herz 9'or Spieler2[a]=='Kreuz 9'or Spieler2[a]=='Pik 9':
             Punkte2=Punkte2+9
             print('+9')
     print(Punkte2)
 
     Punkte3=0
     for a in range(3):
-        if Spieler3[a]=='Karo10' or Spieler3[a]=='KaroB' or Spieler3[a]=='KaroD' or Spieler3[a]=='KaroK' or Spieler3[a]=='KaroA' or Spieler3[a]=='Herz10' or Spieler3[a]=='HerzB' or Spieler3[a]=='HerzD' or Spieler3[a]=='HerzK'or Spieler3[a]=='HerzA'or Spieler3[a]=='Pik10'or Spieler3[a]=='PikB'or Spieler3[a]=='PikD'or Spieler3[a]=='PikK'or Spieler3[a]=='PikA'or Spieler3[a]=='Kreuz10'or Spieler3[a]=='KreuzB'or Spieler3[a]=='KreuzD'or Spieler3[a]=='KreuzK'or Spieler3[a]=='KreuzA':
+        if Spieler3[a]=='Karo A'or Spieler3[a]=='Herz A'or Spieler3[a]=='Pik A'or Spieler3[a]=='Kreuz A':
+            Punkte3=Punkte3+11
+            print('+11')
+        if Spieler3[a]=='Karo 10' or Spieler3[a]=='Karo B' or Spieler3[a]=='Karo D' or Spieler3[a]=='Karo K' or Spieler3[a]=='Herz 10' or Spieler3[a]=='Herz B' or Spieler3[a]=='Herz D' or Spieler3[a]=='Herz K'or Spieler3[a]=='Pik 10'or Spieler3[a]=='Pik B'or Spieler3[a]=='Pik D'or Spieler3[a]=='Pik K'or Spieler3[a]=='Kreuz 10'or Spieler3[a]=='Kreuz B'or Spieler3[a]=='Kreuz D'or Spieler3[a]=='Kreuz K':
             Punkte3=Punkte3+10
             print('+10')
-        if Spieler3[a]=='Karo7'or Spieler3[a]=='Herz7'or Spieler3[a]=='Kreuz7'or Spieler3[a]=='Pik7':
+        if Spieler3[a]=='Karo 7'or Spieler3[a]=='Herz 7'or Spieler3[a]=='Kreuz 7'or Spieler3[a]=='Pik 7':
             Punkte3=Punkte3+7
             print('+7')
-        if Spieler3[a]=='Karo8'or Spieler3[a]=='Herz8'or Spieler3[a]=='Kreuz8'or Spieler3[a]=='Pik8':
+        if Spieler3[a]=='Karo 8'or Spieler3[a]=='Herz 8'or Spieler3[a]=='Kreuz 8'or Spieler3[a]=='Pik 8':
             Punkte3=Punkte3+8
             print('+8')
-        if Spieler3[a]=='Karo9'or Spieler3[a]=='Herz9'or Spieler3[a]=='Kreuz9'or Spieler3[a]=='Pik9':
+        if Spieler3[a]=='Karo 9'or Spieler3[a]=='Herz 9'or Spieler3[a]=='Kreuz 9'or Spieler3[a]=='Pik 9':
             Punkte3=Punkte3+9
             print('+9')
     print(Punkte3)
 
     Punkte4=0
     for a in range(3):
-        if Spieler4[a]=='Karo10' or 'KaroB'or'KaroD'or'KaroK'or'KaroA'or'Herz10'or'HerzB'or'HerzD,'or'HerzK'or'HerzA'or'Pik10'or'PikB'or'PikD'or'PikK'or'PikA'or'Kreuz10'or'KreuzB'or'KreuzD'or'KreuzK'or'KreuzA':
+        if Spieler4[a]=='Karo A' or Spieler4[a]=='Herz A' or Spieler4[a]=='Pik A' or Spieler4[a]=='Kreuz A':
+            Punkte4=Punkte4+11
+            print('+11')
+        if Spieler4[a]=='Karo 10' or Spieler4[a]=='Karo B'or Spieler4[a]=='Karo D'or Spieler4[a]=='Karo K'or Spieler4[a]=='Herz 10'or Spieler4[a]=='Herz B'or Spieler4[a]=='Herz D,'or Spieler4[a]=='Herz K'or Spieler4[a]=='Pik 10'or Spieler4[a]=='Pik B'or Spieler4[a]=='Pik D'or Spieler4[a]=='Pik K'or Spieler4[a]=='Kreuz 10'or Spieler4[a]=='Kreuz B'or Spieler4[a]=='Kreuz D'or Spieler4[a]=='Kreuz K':
             Punkte4=Punkte4+10
             print('+10')
-        if Spieler4[a]=='Karo7'or'Herz7'or'Kreuz7'or'Pik7':
+        if Spieler4[a]=='Karo 7'or Spieler4[a]=='Herz 7'or Spieler4[a]=='Kreuz 7'or Spieler4[a]=='Pik 7':
             Punkte4=Punkte4+7
             print('+7')
-        if Spieler4[a]=='Karo8'or'Herz8'or'Kreuz8'or'Pik8':
+        if Spieler4[a]=='Karo 8'or Spieler4[a]=='Herz 8'or Spieler4[a]=='Kreuz 8'or Spieler4[a]=='Pik 8':
             Punkte4=Punkte4+8
             print('+8')
-        if Spieler4[a]=='Karo9'or'Herz9'or'Kreuz9'or'Pik9':
+        if Spieler4[a]=='Karo 9'or Spieler4[a]=='Herz 9'or Spieler4[a]=='Kreuz 9'or Spieler4[a]=='Pik 9':
             Punkte4=Punkte4+9
             print('+9')
     print(Punkte4)

@@ -1,4 +1,4 @@
-#==========================================
+ #==========================================
 # Title:  Tron
 # Author: Megaterion
 #==========================================
@@ -11,16 +11,16 @@ from pygame.locals import *
 
 
 class Player:
-    def __init__(self, pID, x, y, b, c):
-        self.pID = pID
+    def __init__(self, x, y, b, c):
         self.x = x  #x-Pos
         self.y = y  #y-Pos
         self.speed = 1  #Geschwindigkeit
         self.bearing = b  #Ausrichtung
         self.colour = c
         self.boost = False
+        self.lasercount = True
         self.boostlimit = 300
-        self.rect = pygame.Rect(self.x - 1, self.y - 1, 2, 2)
+        self.rect = pygame.Rect(self.x, self.y, 2, 2)
 
         self.i = False
         self.j = 0
@@ -30,7 +30,7 @@ class Player:
         self.y += self.bearing[1]
         
     def draw(self):
-        self.rect = pygame.Rect(self.x - 1, self.y - 1, 2, 2)
+        self.rect = pygame.Rect(self.x, self.y, 2, 2)
         pygame.draw.rect(WIN, self.colour, self.rect, 0)
 
     def coll(self): 
@@ -47,6 +47,7 @@ class Player:
 
             pygame.mixer.Sound.play(crash_sound)
             objects.clear()
+            las.clear()
             path.clear()
             path_colour.clear()
             pygame.display.update()
@@ -57,9 +58,42 @@ class Player:
             path.append(self.rect)
             path_colour.append(self.colour)
 
+    def shoot(self):
+        if self.lasercount:
+            self.lasercount = False
+            laser = Laser(self.x, self.y, self.bearing)
+            las.append(laser)
+            pygame.mixer.Sound.play(laser_sound)
+
+
+class Laser:
+    def __init__(self, x, y, b):
+        self.x = x
+        self.y = y
+        self.bearing = b
+        self.colour = WHITE
+        self.rect = pygame.Rect(self.x-3, self.y-3, 6, 6)
+
+    def move(self):
+        self.x += self.bearing[0]
+        self.y += self.bearing[1]
+        
+    def draw(self):
+        self.rect = pygame.Rect(self.x-3, self.y-3, 6, 6 )
+        pygame.draw.rect(WIN, self.colour, self.rect, 0)
+
+    def coll(self): 
+        if self.rect.collidelist(wall_rects) > -1:
+            las.remove(self)
+        for p in range(len(path)-1):
+            p -= 1
+            if self.rect.colliderect(path[p]):
+                path.remove(path[p])
+                path_colour.remove(path_colour[p])
+            
 def summonPlayer():
-    p1 = Player('1', WIDTH/3, (HEIGHT-offset) / 2, (2, 0), P1_COLOUR)
-    p2 = Player('2', (WIDTH/3)*2, (HEIGHT-offset) / 2,(-2, 0), P2_COLOUR)
+    p1 = Player(WIDTH/3, (HEIGHT-offset) / 2, (2, 0), P1_COLOUR)
+    p2 = Player((WIDTH/3)*2, (HEIGHT-offset) / 2,(-2, 0), P2_COLOUR)
     objects.append(p1)
     objects.append(p2)
                 
@@ -150,6 +184,8 @@ def game():
                         objects[0].bearing = (2, 0)
                     elif event.key == pygame.K_TAB:
                             objects[0].boost = True
+                    elif event.key == pygame.K_q:
+                            objects[0].shoot()
                                           
                     #Player 2
                     if event.key == pygame.K_UP and objects[1].bearing != (0,2):
@@ -160,8 +196,10 @@ def game():
                         objects[1].bearing = (-2, 0)
                     elif event.key == pygame.K_RIGHT and objects[1].bearing != (-2,0):
                         objects[1].bearing = (2, 0)
-                    elif event.key == pygame.K_RSHIFT:
+                    elif event.key == pygame.K_MINUS:
                         objects[1].boost = True
+                    elif event.key == pygame.K_RSHIFT:
+                            objects[1].shoot()
                     
             WIN.fill(BLACK)  #leert das Fensteer
 
@@ -169,11 +207,13 @@ def game():
                 pygame.draw.rect(WIN, (42, 42, 42), w, 0)  #Mauer erzeugen
 
             for p in range(len(path)):
-                if path_colour[p] == P1_COLOUR:
-                    pygame.draw.rect(WIN, P1_COLOUR, path[p], 0)
-                else:
-                    pygame.draw.rect(WIN, P2_COLOUR, path[p], 0)
-
+                pygame.draw.rect(WIN, path_colour[p], path[p], 0)
+                    
+            for l in las:
+                l.move()
+                l.draw()
+                l.coll()
+                
             for o in objects:
                 if o.boost == True:
                     if o.boostlimit - 1 >= 0:
@@ -260,7 +300,8 @@ lost_font = pygame.font.SysFont(None, 60)
 
 
 #Game
-BLACK = (0, 0, 0)  
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
 P1_COLOUR = (0, 255, 255) 
 P2_COLOUR = (255, 187, 39)
 P3_COLOUR = (210, 0, 3)
@@ -270,6 +311,7 @@ player_score = [0, 0]
 path = []  #Liste mit allen Pfadteilen
 path_colour = [] #Liste mit Farben der Pfadteile
 objects = []  #Liste mit allen Playern
+las = []
         
 wall_rects = [pygame.Rect([0, offset, 15, HEIGHT]) , #links
                       pygame.Rect([0, offset, WIDTH, 15]), #oben
@@ -280,6 +322,7 @@ wall_rects = [pygame.Rect([0, offset, 15, HEIGHT]) , #links
 menu_music = "Tron_Assets/Tron_menu.mp3"
 game_music = "Tron_Assets/Lightcycle_Race.mp3"
 crash_sound = pygame.mixer.Sound("Tron_Assets/Crash_sound.mp3")
+laser_sound = pygame.mixer.Sound("Tron_Assets/Laser_sound.mp3")
 
 ###############
 main_menu()

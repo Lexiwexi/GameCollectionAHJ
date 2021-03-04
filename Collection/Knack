@@ -36,6 +36,37 @@ def mischen():
         Deck[j] = tempz
         Deck[jtwo] = tempf
 
+def alle1():
+    Kartetausch=0
+    for b in range(3):
+        Kartetausch=Stappel[b] # alle Karten tauschen spieler 1
+        Stappel[b]=Spieler1[b]
+        Spieler1[b]=Kartetausch
+
+def alle2():
+    Kartetausch=0
+    for b in range(3):
+        Kartetausch=Stappel[b] #alle Karten tauschen spieler 2
+        Stappel[b]=Spieler2[b]
+        Spieler1[b]=Kartetausch
+
+def alle3():
+    Kartetausch=0
+    for b in range(3):
+        Kartetausch=Stappel[b] #alle Karten tauschen spieler 3
+        Stappel[b]=Spieler3[b]
+        Spieler1[b]=Kartetausch
+
+def alle4():
+    Kartetausch=0
+    for b in range(3):
+        Kartetausch=Stappel[b] #alle Karten tauschen spieler 4
+        Stappel[b]=Spieler4[b]
+        Spieler1[b]=Kartetausch
+
+#===========================================
+#ZÄHLALGORITHMEN VORAUS
+#===========================================
 def zählen():
     Punkte1=0
     Karo=0
@@ -59,67 +90,422 @@ def zählen():
             Deckart.append(c)
         if c=='Kreuz':
             Kreuz=Kreuz+1
-            Deckart.append(c)
-            
+            Deckart.append(c)        
     if Karo>Herz and Karo>Pik and Karo>Kreuz:
         for a in range(3):
             if Deckart[a]=='Karo':
-                if Spieler1[a]=='Karo A' or Spieler1[a]=='Herz A'or Spieler1[a]=='Pik A'or Spieler1[a]=='Kreuz A':
+                if Spieler1[a]=='Karo A':
                     Punkte1=Punkte1+11
-                if Spieler1[a]=='Karo 10' or Spieler1[a]=='Karo B' or Spieler1[a]=='Karo D' or Spieler1[a]=='Karo K' or  Spieler1[a]=='Herz 10' or Spieler1[a]=='Herz B' or Spieler1[a]=='Herz D' or Spieler1[a]=='Herz K'or Spieler1[a]=='Pik 10'or Spieler1[a]=='Pik B'or Spieler1[a]=='Pik D'or Spieler1[a]=='Pik K'or Spieler1[a]=='Kreuz 10'or Spieler1[a]=='Kreuz B'or Spieler1[a]=='Kreuz D'or Spieler1[a]=='Kreuz K':
+                if Spieler1[a]=='Karo 10' or Spieler1[a]=='Karo B' or Spieler1[a]=='Karo D' or Spieler1[a]=='Karo K': 
                     Punkte1=Punkte1+10
-                if Spieler1[a]=='Karo 7'or Spieler1[a]=='Herz 7'or Spieler1[a]=='Kreuz 7'or Spieler1[a]=='Pik 7':
+                if Spieler1[a]=='Karo 7':
                     Punkte1=Punkte1+7
-                if Spieler1[a]=='Karo 8'or Spieler1[a]=='Herz 8'or Spieler1[a]=='Kreuz 8'or Spieler1[a]=='Pik 8':
+                if Spieler1[a]=='Karo 8':
                     Punkte1=Punkte1+8
-                if Spieler1[a]=='Karo 9'or Spieler1[a]=='Herz 9'or Spieler1[a]=='Kreuz 9'or Spieler1[a]=='Pik 9':
+                if Spieler1[a]=='Karo 9':
                     Punkte1=Punkte1+9
     if Herz>Karo and Herz>Pik and Herz>Kreuz:
         for a in range(3):
             if Deckart[a]=='Herz':
-                if Spieler1[a]=='Karo A' or Spieler1[a]=='Herz A'or Spieler1[a]=='Pik A'or Spieler1[a]=='Kreuz A':
+                if Spieler1[a]=='Herz A':
                     Punkte1=Punkte1+11
-                if Spieler1[a]=='Karo 10' or Spieler1[a]=='Karo B' or Spieler1[a]=='Karo D' or Spieler1[a]=='Karo K' or  Spieler1[a]=='Herz 10' or Spieler1[a]=='Herz B' or Spieler1[a]=='Herz D' or Spieler1[a]=='Herz K'or Spieler1[a]=='Pik 10'or Spieler1[a]=='Pik B'or Spieler1[a]=='Pik D'or Spieler1[a]=='Pik K'or Spieler1[a]=='Kreuz 10'or Spieler1[a]=='Kreuz B'or Spieler1[a]=='Kreuz D'or Spieler1[a]=='Kreuz K':
+                if Spieler1[a]=='Herz 10' or Spieler1[a]=='Herz B' or Spieler1[a]=='Herz D' or Spieler1[a]=='Herz K':
                     Punkte1=Punkte1+10
-                if Spieler1[a]=='Karo 7'or Spieler1[a]=='Herz 7'or Spieler1[a]=='Kreuz 7'or Spieler1[a]=='Pik 7':
+                if Spieler1[a]=='Herz 7':
                     Punkte1=Punkte1+7
-                if Spieler1[a]=='Karo 8'or Spieler1[a]=='Herz 8'or Spieler1[a]=='Kreuz 8'or Spieler1[a]=='Pik 8':
+                if Spieler1[a]=='Herz 8':
                     Punkte1=Punkte1+8
-                if Spieler1[a]=='Karo 9'or Spieler1[a]=='Herz 9'or Spieler1[a]=='Kreuz 9'or Spieler1[a]=='Pik 9':
+                if Spieler1[a]=='Herz 9':
                     Punkte1=Punkte1+9
     if Pik>Herz and Pik>Karo and Pik>Kreuz:
         for a in range(3):
             if Deckart[a]=='Pik':
-                if Spieler1[a]=='Karo A' or Spieler1[a]=='Herz A'or Spieler1[a]=='Pik A'or Spieler1[a]=='Kreuz A':
+                if Spieler1[a]=='Pik A':
                     Punkte1=Punkte1+11
-                if Spieler1[a]=='Karo 10' or Spieler1[a]=='Karo B' or Spieler1[a]=='Karo D' or Spieler1[a]=='Karo K' or  Spieler1[a]=='Herz 10' or Spieler1[a]=='Herz B' or Spieler1[a]=='Herz D' or Spieler1[a]=='Herz K'or Spieler1[a]=='Pik 10'or Spieler1[a]=='Pik B'or Spieler1[a]=='Pik D'or Spieler1[a]=='Pik K'or Spieler1[a]=='Kreuz 10'or Spieler1[a]=='Kreuz B'or Spieler1[a]=='Kreuz D'or Spieler1[a]=='Kreuz K':
+                if Spieler1[a]=='Pik 10'or Spieler1[a]=='Pik B'or Spieler1[a]=='Pik D'or Spieler1[a]=='Pik K':
                     Punkte1=Punkte1+10
-                if Spieler1[a]=='Karo 7'or Spieler1[a]=='Herz 7'or Spieler1[a]=='Kreuz 7'or Spieler1[a]=='Pik 7':
+                if Spieler1[a]=='Pik 7':
                     Punkte1=Punkte1+7
-                if Spieler1[a]=='Karo 8'or Spieler1[a]=='Herz 8'or Spieler1[a]=='Kreuz 8'or Spieler1[a]=='Pik 8':
+                if Spieler1[a]=='Pik 8':
                     Punkte1=Punkte1+8
-                if Spieler1[a]=='Karo 9'or Spieler1[a]=='Herz 9'or Spieler1[a]=='Kreuz 9'or Spieler1[a]=='Pik 9':
+                if Spieler1[a]=='Pik 9':
                     Punkte1=Punkte1+9
-    if Kreuz>Herz and Kreuz>Pik and Kreuz>Kreuz:
+    if Kreuz>Herz and Kreuz>Pik and Kreuz>Karo:
+        for a in range(3):
+            if Deckart[a]=='Kreuz':
+                if Spieler1[a]=='Kreuz A':
+                    Punkte1=Punkte1+11
+                if Spieler1[a]=='Kreuz 10'or Spieler1[a]=='Kreuz B'or Spieler1[a]=='Kreuz D'or Spieler1[a]=='Kreuz K':
+                    Punkte1=Punkte1+10
+                if Spieler1[a]=='Kreuz 7':
+                    Punkte1=Punkte1+7
+                if Spieler1[a]=='Kreuz 8':
+                    Punkte1=Punkte1+8
+                if Spieler1[a]=='Kreuz 9':
+                    Punkte1=Punkte1+9
+
+    höchstezahl=0
+    if Punkte1==0:  #tritt bei drei unterschiedlichen karten auf
+        for b in range(3):
+            a=Spieler1[b]
+            b=a.split()
+            c=b[1]
+            if c=='A':
+                höchstezahl=11
+            if c=='10' or c=='B' or c=='D' or c=='K':
+                if höchstezahl<10:
+                    höchstezahl=10
+            if c=='9':
+                if höchstezahl<9:
+                    höchstezahl=9
+            if c=='8':
+                if höchstezahl<8:
+                    höchstezahl=8
+            if c=='7':
+                if höchstezahl<7:
+                    höchstezahl=7
+        Punkte1=höchstezahl
+
+    if Punkte1==31:         #gewinn funktion
+        print('Du Gewinnst!!!')
+        neu()
+        
+    Deckart=[]
+    print('Spieler1 hat->',Punkte1,' Punkte')
+
+def zählenspieler2():#Zählen für spieler 2
+    Punkte1=0
+    Karo=0
+    Herz=0
+    Pik=0
+    Kreuz=0
+    Deckart=[]
+    print(Spieler2)
+    for x in range(3):
+        a=Spieler2[x]
+        b=a.split()
+        c=b[0]
+        if c=='Karo':
+            Karo=Karo+1
+            Deckart.append(c)
+        if c=='Herz':
+            Herz=Herz+1
+            Deckart.append(c)
+        if c=='Pik':
+            Pik=Pik+1
+            Deckart.append(c)
+        if c=='Kreuz':
+            Kreuz=Kreuz+1
+            Deckart.append(c)
+    print(Deckart)
+            
+    if Karo>Herz and Karo>Pik and Karo>Kreuz:
         for a in range(3):
             if Deckart[a]=='Karo':
-                if Spieler1[a]=='Karo A' or Spieler1[a]=='Herz A'or Spieler1[a]=='Pik A'or Spieler1[a]=='Kreuz A':
+                if Spieler2[a]=='Karo A':
                     Punkte1=Punkte1+11
-                if Spieler1[a]=='Karo 10' or Spieler1[a]=='Karo B' or Spieler1[a]=='Karo D' or Spieler1[a]=='Karo K' or  Spieler1[a]=='Herz 10' or Spieler1[a]=='Herz B' or Spieler1[a]=='Herz D' or Spieler1[a]=='Herz K'or Spieler1[a]=='Pik 10'or Spieler1[a]=='Pik B'or Spieler1[a]=='Pik D'or Spieler1[a]=='Pik K'or Spieler1[a]=='Kreuz 10'or Spieler1[a]=='Kreuz B'or Spieler1[a]=='Kreuz D'or Spieler1[a]=='Kreuz K':
+                if Spieler2[a]=='Karo 10' or Spieler2[a]=='Karo B' or Spieler2[a]=='Karo D' or Spieler2[a]=='Karo K': 
                     Punkte1=Punkte1+10
-                if Spieler1[a]=='Karo 7'or Spieler1[a]=='Herz 7'or Spieler1[a]=='Kreuz 7'or Spieler1[a]=='Pik 7':
+                if Spieler2[a]=='Karo 7':
                     Punkte1=Punkte1+7
-                if Spieler1[a]=='Karo 8'or Spieler1[a]=='Herz 8'or Spieler1[a]=='Kreuz 8'or Spieler1[a]=='Pik 8':
+                if Spieler2[a]=='Karo 8':
                     Punkte1=Punkte1+8
-                if Spieler1[a]=='Karo 9'or Spieler1[a]=='Herz 9'or Spieler1[a]=='Kreuz 9'or Spieler1[a]=='Pik 9':
+                if Spieler2[a]=='Karo 9':
                     Punkte1=Punkte1+9
+    if Herz>Karo and Herz>Pik and Herz>Kreuz:
+        for a in range(3):
+            if Deckart[a]=='Herz':
+                if Spieler2[a]=='Herz A':
+                    Punkte1=Punkte1+11
+                if Spieler2[a]=='Herz 10' or Spieler2[a]=='Herz B' or Spieler2[a]=='Herz D' or Spieler2[a]=='Herz K':
+                    Punkte1=Punkte1+10
+                if Spieler2[a]=='Herz 7':
+                    Punkte1=Punkte1+7
+                if Spieler2[a]=='Herz 8':
+                    Punkte1=Punkte1+8
+                if Spieler2[a]=='Herz 9':
+                    Punkte1=Punkte1+9
+    if Pik>Herz and Pik>Karo and Pik>Kreuz:
+        for a in range(3):
+            if Deckart[a]=='Pik':
+                if Spieler2[a]=='Pik A':
+                    Punkte1=Punkte1+11
+                if Spieler2[a]=='Pik 10'or Spieler2[a]=='Pik B'or Spieler2[a]=='Pik D'or Spieler2[a]=='Pik K':
+                    Punkte1=Punkte1+10
+                if Spieler2[a]=='Pik 7':
+                    Punkte1=Punkte1+7
+                if Spieler2[a]=='Pik 8':
+                    Punkte1=Punkte1+8
+                if Spieler2[a]=='Pik 9':
+                    Punkte1=Punkte1+9
+    if Kreuz>Herz and Kreuz>Pik and Kreuz>Karo:
+        for a in range(3):
+            if Deckart[a]=='Kreuz':
+                if Spieler2[a]=='Kreuz A':
+                    Punkte1=Punkte1+11
+                if Spieler2[a]=='Kreuz 10'or Spieler2[a]=='Kreuz B'or Spieler2[a]=='Kreuz D'or Spieler2[a]=='Kreuz K':
+                    Punkte1=Punkte1+10
+                if Spieler2[a]=='Kreuz 7':
+                    Punkte1=Punkte1+7
+                if Spieler2[a]=='Kreuz 8':
+                    Punkte1=Punkte1+8
+                if Spieler2[a]=='Kreuz 9':
+                    Punkte1=Punkte1+9
+
+    höchstezahl=0
+    if Punkte1==0:  #tritt bei drei unterschiedlichen karten auf
+        for b in range(3):
+            a=Spieler2[b]
+            b=a.split()
+            c=b[1]
+            if c=='A':
+                höchstezahl=11
+            if c=='10' or c=='B' or c=='D' or c=='K':
+                if höchstezahl<10:
+                    höchstezahl=10
+            if c=='9':
+                if höchstezahl<9:
+                    höchstezahl=9
+            if c=='8':
+                if höchstezahl<8:
+                    höchstezahl=8
+            if c=='7':
+                if höchstezahl<7:
+                    höchstezahl=7
+        Punkte1=höchstezahl
+
+    if Punkte1==31:         #gewinn funktion
+        print('Du Gewinnst!!!')
+        neu()
+    
     Deckart=[]
-    print('Spieler 1 hat->',Punkte1,' Punkte')
+    print('Spieler2 hat->',Punkte1,' Punkte')
+
+def zählenspieler3():#Zählen für spieler 3
+    Punkte1=0
+    Karo=0
+    Herz=0
+    Pik=0
+    Kreuz=0
+    Deckart=[]
+    print(Spieler3)
+    for x in range(3):
+        a=Spieler3[x]
+        b=a.split()
+        c=b[0]
+        if c=='Karo':
+            Karo=Karo+1
+            Deckart.append(c)
+        if c=='Herz':
+            Herz=Herz+1
+            Deckart.append(c)
+        if c=='Pik':
+            Pik=Pik+1
+            Deckart.append(c)
+        if c=='Kreuz':
+            Kreuz=Kreuz+1
+            Deckart.append(c)
+    print(Deckart)
+            
+    if Karo>Herz and Karo>Pik and Karo>Kreuz:
+        for a in range(3):
+            if Deckart[a]=='Karo':
+                if Spieler3[a]=='Karo A':
+                    Punkte1=Punkte1+11
+                if Spieler3[a]=='Karo 10' or Spieler3[a]=='Karo B' or Spieler3[a]=='Karo D' or Spieler3[a]=='Karo K': 
+                    Punkte1=Punkte1+10
+                if Spieler3[a]=='Karo 7':
+                    Punkte1=Punkte1+7
+                if Spieler3[a]=='Karo 8':
+                    Punkte1=Punkte1+8
+                if Spieler3[a]=='Karo 9':
+                    Punkte1=Punkte1+9
+    if Herz>Karo and Herz>Pik and Herz>Kreuz:
+        for a in range(3):
+            if Deckart[a]=='Herz':
+                if Spieler3[a]=='Herz A':
+                    Punkte1=Punkte1+11
+                if Spieler3[a]=='Herz 10' or Spieler3[a]=='Herz B' or Spieler3[a]=='Herz D' or Spieler3[a]=='Herz K':
+                    Punkte1=Punkte1+10
+                if Spieler3[a]=='Herz 7':
+                    Punkte1=Punkte1+7
+                if Spieler3[a]=='Herz 8':
+                    Punkte1=Punkte1+8
+                if Spieler3[a]=='Herz 9':
+                    Punkte1=Punkte1+9
+    if Pik>Herz and Pik>Karo and Pik>Kreuz:
+        for a in range(3):
+            if Deckart[a]=='Pik':
+                if Spieler3[a]=='Pik A':
+                    Punkte1=Punkte1+11
+                if Spieler3[a]=='Pik 10'or Spieler3[a]=='Pik B'or Spieler3[a]=='Pik D'or Spieler3[a]=='Pik K':
+                    Punkte1=Punkte1+10
+                if Spieler3[a]=='Pik 7':
+                    Punkte1=Punkte1+7
+                if Spieler3[a]=='Pik 8':
+                    Punkte1=Punkte1+8
+                if Spieler3[a]=='Pik 9':
+                    Punkte1=Punkte1+9
+    if Kreuz>Herz and Kreuz>Pik and Kreuz>Karo:
+        for a in range(3):
+            if Deckart[a]=='Kreuz':
+                if Spieler3[a]=='Kreuz A':
+                    Punkte1=Punkte1+11
+                if Spieler3[a]=='Kreuz 10'or Spieler3[a]=='Kreuz B'or Spieler3[a]=='Kreuz D'or Spieler3[a]=='Kreuz K':
+                    Punkte1=Punkte1+10
+                if Spieler3[a]=='Kreuz 7':
+                    Punkte1=Punkte1+7
+                if Spieler3[a]=='Kreuz 8':
+                    Punkte1=Punkte1+8
+                if Spieler3[a]=='Kreuz 9':
+                    Punkte1=Punkte1+9
+
+    höchstezahl=0
+    if Punkte1==0:  #tritt bei drei unterschiedlichen karten auf
+        for b in range(3):
+            a=Spieler3[b]
+            b=a.split()
+            c=b[1]
+            if c=='A':
+                höchstezahl=11
+            if c=='10' or c=='B' or c=='D' or c=='K':
+                if höchstezahl<10:
+                    höchstezahl=10
+            if c=='9':
+                if höchstezahl<9:
+                    höchstezahl=9
+            if c=='8':
+                if höchstezahl<8:
+                    höchstezahl=8
+            if c=='7':
+                if höchstezahl<7:
+                    höchstezahl=7
+        Punkte1=höchstezahl
+
+    if Punkte1==31:         #gewinn funktion
+        print('Du Gewinnst!!!')
+        neu()
+                    
+    Deckart=[]
+    print('Spieler3 hat->',Punkte1,' Punkte')
+    
+def zählenspieler4():#Zählen für spieler 4
+    Punkte1=0
+    Karo=0
+    Herz=0
+    Pik=0
+    Kreuz=0
+    Deckart=[]
+    print(Spieler4)
+    for x in range(3):
+        a=Spieler4[x]
+        b=a.split()
+        c=b[0]
+        if c=='Karo':
+            Karo=Karo+1
+            Deckart.append(c)
+        if c=='Herz':
+            Herz=Herz+1
+            Deckart.append(c)
+        if c=='Pik':
+            Pik=Pik+1
+            Deckart.append(c)
+        if c=='Kreuz':
+            Kreuz=Kreuz+1
+            Deckart.append(c)
+    print(Deckart)
+            
+    if Karo>Herz and Karo>Pik and Karo>Kreuz:
+        for a in range(3):
+            if Deckart[a]=='Karo':
+                if Spieler4[a]=='Karo A':
+                    Punkte1=Punkte1+11
+                if Spieler4[a]=='Karo 10' or Spieler4[a]=='Karo B' or Spieler4[a]=='Karo D' or Spieler4[a]=='Karo K': 
+                    Punkte1=Punkte1+10
+                if Spieler4[a]=='Karo 7':
+                    Punkte1=Punkte1+7
+                if Spieler4[a]=='Karo 8':
+                    Punkte1=Punkte1+8
+                if Spieler4[a]=='Karo 9':
+                    Punkte1=Punkte1+9
+    if Herz>Karo and Herz>Pik and Herz>Kreuz:
+        for a in range(3):
+            if Deckart[a]=='Herz':
+                if Spieler4[a]=='Herz A':
+                    Punkte1=Punkte1+11
+                if Spieler4[a]=='Herz 10' or Spieler4[a]=='Herz B' or Spieler4[a]=='Herz D' or Spieler4[a]=='Herz K':
+                    Punkte1=Punkte1+10
+                if Spieler4[a]=='Herz 7':
+                    Punkte1=Punkte1+7
+                if Spieler4[a]=='Herz 8':
+                    Punkte1=Punkte1+8
+                if Spieler4[a]=='Herz 9':
+                    Punkte1=Punkte1+9
+    if Pik>Herz and Pik>Karo and Pik>Kreuz:
+        for a in range(3):
+            if Deckart[a]=='Pik':
+                if Spieler4[a]=='Pik A':
+                    Punkte1=Punkte1+11
+                if Spieler4[a]=='Pik 10'or Spieler4[a]=='Pik B'or Spieler4[a]=='Pik D'or Spieler4[a]=='Pik K':
+                    Punkte1=Punkte1+10
+                if Spieler4[a]=='Pik 7':
+                    Punkte1=Punkte1+7
+                if Spieler4[a]=='Pik 8':
+                    Punkte1=Punkte1+8
+                if Spieler4[a]=='Pik 9':
+                    Punkte1=Punkte1+9
+    if Kreuz>Herz and Kreuz>Pik and Kreuz>Karo:
+        for a in range(3):
+            if Deckart[a]=='Kreuz':
+                if Spieler4[a]=='Kreuz A':
+                    Punkte1=Punkte1+11
+                if Spieler4[a]=='Kreuz 10'or Spieler4[a]=='Kreuz B'or Spieler4[a]=='Kreuz D'or Spieler4[a]=='Kreuz K':
+                    Punkte1=Punkte1+10
+                if Spieler4[a]=='Kreuz 7':
+                    Punkte1=Punkte1+7
+                if Spieler4[a]=='Kreuz 8':
+                    Punkte1=Punkte1+8
+                if Spieler4[a]=='Kreuz 9':
+                    Punkte1=Punkte1+9
+
+    höchstezahl=0
+    if Punkte1==0:  #tritt bei drei unterschiedlichen karten auf
+        for b in range(3):
+            a=Spieler4[b]
+            b=a.split()
+            c=b[1]
+            if c=='A':
+                höchstezahl=11
+            if c=='10' or c=='B' or c=='D' or c=='K':
+                if höchstezahl<10:
+                    höchstezahl=10
+            if c=='9':
+                if höchstezahl<9:
+                    höchstezahl=9
+            if c=='8':
+                if höchstezahl<8:
+                    höchstezahl=8
+            if c=='7':
+                if höchstezahl<7:
+                    höchstezahl=7
+        Punkte1=höchstezahl
+        
+
+    if Punkte1==31:         #gewinn funktion
+        print('Du Gewinnst!!!')
+        neu()
+                    
+    Deckart=[]
+    print('Spieler4 hat->',Punkte1,' Punkte')
+
+#===========================================
+#ZÄHLALGORITHMEN Beendet
+#===========================================
 
 #beenden
-def schließen():
+'''def schließen():
     pygame.quit()
-    fenster.destroy()
+    fenster.destroy()'''
 
 def legen():
     a = Deck[0]
@@ -156,122 +542,169 @@ def legen():
     print('')
 
 def neu():
-    a = Stappel[0]
-    Deck.append(a)
-    del Stappel[0]
-    
-    a = Stappel[0]
-    Deck.append(a)
-    del Stappel[0]
-    
-    a = Stappel[0]
-    Deck.append(a)
-    del Stappel[0]
-    
-    for b in range(2):
+    for b in range(3):
+        a = Stappel[0]
+        Deck.append(a)
+        del Stappel[0]
+        
+    for b in range(3):
         a = Spieler1[0]
         Deck.append(a)
         del Spieler1[0]
-    for b in range(2):
+        
+    for b in range(3):
         a = Spieler2[0]
         Deck.append(a)
         del Spieler2[0]
-    for b in range(2):
+        
+    for b in range(3):
         a = Spieler3[0]
         Deck.append(a)
         del Spieler3[0]
-    for b in range(2):
+        
+    for b in range(3):
         a = Spieler4[0]
         Deck.append(a)
         del Spieler4[0]
-
+        
+    spiel()
+    
+        
+#=========================================
+#Rundenmechanismus
+#=========================================
 def runde():
-    if Spieler == 0:
-        print('Spieler1 Karten->',Spieler1)
-        print('Stappel->',Stappel)
+    weiter = False
+    while weiter ==False:
+        print('Spieler1 Karten->',Spieler1) #Wiedergabe Spieler1
+        print('Stappel->',Stappel)          #Wiedergabe Stappel
+        print('Andere Optionen->\n neu/ Neues Spiel \n keine/ Keine Karte tauschen \n alle/ Alle Karten tauschen')
         b=str(input('Welche Karte möchtest du aus dem Stappel tauschen?'))
-        for c in range(3):
-            if str(b)==Stappel[c]:
+        if str(b)=='neu':                   #Neues Spiel
+            neu()
+        if str(b)=='keine':
+            weiter=True
+        if str(b)=='alle':
+            alle1()
+            weiter=True
+        for c in range(3):                  #guckt ob sich die Eingabe in Spieler1 befindet
+             if str(b)==Stappel[c]:
                 Karte1tausch=Stappel[c]
                 Variable1=c
-
-        print('Spieler1 Karten->',Spieler1)
-        print('Stappel->',Stappel)
-        b=str(input('Welche Karte möchtest du von deinen Karten tauschen?'))
-        for c in range(3):
-            if str(b)==Spieler1[c]:
-                Karte2tausch=Spieler1[c]
-                Variable2=c
-        Stappel[Variable1]=Karte2tausch
-        Spieler1[Variable2]= Karte1tausch
-        zählen()
+                while weiter==False:
+                    b=str(input('Welche Karte möchtest du von deinen Karten tauschen?'))
+                    for c in range(3):
+                        if str(b)==Spieler1[c]:
+                            Karte2tausch=Spieler1[c]
+                            Variable2=c
+                            
+                            Stappel[Variable1]=Karte2tausch
+                            Spieler1[Variable2]= Karte1tausch
+                            
+                            weiter=True
+    zählen()
 #====================================================
-    if Spieler == 1:
+    weiter=False
+    while weiter ==False:
         print('Spieler2 Karten->',Spieler2)
         print('Stappel->',Stappel)
+        print('Andere Optionen-> neu/keine')
         b=str(input('Welche Karte möchtest du aus dem Stappel tauschen?'))
-        for c in range(3):
+        if str(b)=='neu':                   #Neues Spiel
+            neu()
+        if str(b)=='keine':
+            weiter=True
+        if str(b)=='alle':
+            alle2()
+            weiter=True
+        for c in range(3):                  #guckt ob sich die Eingabe in Spieler1 befindet
             if str(b)==Stappel[c]:
                 Karte1tausch=Stappel[c]
                 Variable1=c
-
-        print('Spieler2 Karten->',Spieler2)
-        print('Stappel->',Stappel)
-        b=str(input('Welche Karte möchtest du von deinen Karten tauschen?'))
-        for c in range(3):
-            if str(b)==Spieler2[c]:
-                Karte2tausch=Spieler2[c]
-                Variable2=c
-        Stappel[Variable1]=Karte2tausch
-        Spieler1[Variable2]= Karte1tausch
+                while weiter==False:
+                    b=str(input('Welche Karte möchtest du von deinen Karten tauschen?'))
+                    for c in range(3):
+                        if str(b)==Spieler2[c]:
+                            Karte2tausch=Spieler2[c]
+                            Variable2=c
+                            
+                            Stappel[Variable1]=Karte2tausch
+                            Spieler2[Variable2]= Karte1tausch
+                            
+                            weiter=True
+    zählenspieler2()
 #====================================================
-    if Spieler == 3:
+    weiter=False
+    while weiter ==False:
         print('Spieler3 Karten->',Spieler3)
         print('Stappel->',Stappel)
+        print('Andere Optionen-> neu/keine')
         b=str(input('Welche Karte möchtest du aus dem Stappel tauschen?'))
-        for c in range(3):
+        if str(b)=='neu':                   #Neues Spiel
+            neu()
+        if str(b)=='keine':
+            weiter=True
+        if str(b)=='alle':
+            alle2()
+            weiter=True
+        for c in range(3):                  #guckt ob sich die Eingabe in Stappel befindet
             if str(b)==Stappel[c]:
                 Karte1tausch=Stappel[c]
                 Variable1=c
-
-        print('Spieler3 Karten->',Spieler3)
-        print('Stappel->',Stappel)
-        b=str(input('Welche Karte möchtest du von deinen Karten tauschen?'))
-        for c in range(3):
-            if str(b)==Spieler3[c]:
-                Karte2tausch=Spieler3[c]
-                Variable2=c
-        Stappel[Variable1]=Karte2tausch
-        Spieler1[Variable2]= Karte1tausch
+                while weiter==False:        #Eingabe spieler 1
+                    b=str(input('Welche Karte möchtest du von deinen Karten tauschen?'))
+                    for c in range(3):
+                        if str(b)==Spieler3[c]:
+                            Karte2tausch=Spieler3[c]
+                            Variable2=c
+                            
+                            Stappel[Variable1]=Karte2tausch#Kartentausch
+                            Spieler3[Variable2]= Karte1tausch
+                            
+                            weiter=True
+    zählenspieler3()
 #====================================================
-    if Spieler == 4:
+    weiter=False
+    while weiter ==False:
         print('Spieler4 Karten->',Spieler4)
         print('Stappel->',Stappel)
+        print('Andere Optionen-> neu/keine')
         b=str(input('Welche Karte möchtest du aus dem Stappel tauschen?'))
-        for c in range(3):
+        if str(b)=='neu':                   #Neues Spiel
+            neu()
+        if str(b)=='keine':
+            weiter=True
+        if str(b)=='alle':
+            alle4()
+            weiter=True
+        for c in range(3):                  #guckt ob sich die Eingabe in Spieler1 befindet
             if str(b)==Stappel[c]:
                 Karte1tausch=Stappel[c]
                 Variable1=c
+                while weiter==False:
+                    b=str(input('Welche Karte möchtest du von deinen Karten tauschen?'))
+                    for c in range(3):
+                        if str(b)==Spieler4[c]:
+                            Karte2tausch=Spieler4[c]
+                            Variable2=c
+                            
+                            Stappel[Variable1]=Karte2tausch #Kartentausch
+                            Spieler4[Variable2]= Karte1tausch
+                            
+                            weiter=True
+    zählenspieler4()
 
-        print('Spieler4 Karten->',Spieler4)
-        print('Stappel->',Stappel)
-        b=str(input('Welche Karte möchtest du von deinen Karten tauschen?'))
-        for c in range(3):
-            if str(b)==Spieler4[c]:
-                Karte2tausch=Spieler4[c]
-                Variable2=c
-        Stappel[Variable1]=Karte2tausch
-        Spieler1[Variable2]= Karte1tausch
 #====================================================        
         
 def spiel():
     mischen()
     legen()
-    for Spieler in range(3):
-        if Spieler == 4:
-            Spieler=0
+    weiter=False
+    while weiter == False:
         runde()
 
+spiel()
+'''
 #Tkinter fenster
 fenster=Tk()
 fenster.geometry("500x450")
@@ -289,3 +722,4 @@ btn_ende.place(x=90, y=410)
 #Buttonneu
 btn_ende=Button(fenster,text="Neues Spiel",command=neu)
 btn_ende.place(x=170, y=410)
+'''

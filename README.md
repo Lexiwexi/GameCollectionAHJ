@@ -10,16 +10,7 @@ Games planned/ realized:
 ### Chess
 A simple game of chess with a graphical interface written in python using tkinter and pygame. 
 
-#### Usage
-- Todo
-
-### Space Invaders
-Todo
-
-### Tic-Tac-Toe
-Todo
-
-### Tron
+### TRON
 Todo
 
 ## Installation

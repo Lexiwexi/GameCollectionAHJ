@@ -3,8 +3,7 @@ Collection of different games written in python.
 Games planned/ realized:  
 - Chess (WiP)
 - Card Games (On Ice)
-- Space Invaders
-- Tron (WiP)
+- TRON
 
 ## Games
 

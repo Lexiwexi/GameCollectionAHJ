@@ -22,7 +22,6 @@ screen = pygame.display.set_mode( (700, 400 ) )
 pygame.display.set_caption('Knack')
 
 #pngs
-
 kreuz7 = pygame.image.load(r"C:\Users\Jan-Eric Gedicke\Documents\Skat\7C.png").convert()
 kreuz7 = pygame.transform.scale(kreuz7, (100, 100))
 karo7 = pygame.image.load(r"C:\Users\Jan-Eric Gedicke\Documents\Skat\7D.png").convert()
@@ -94,11 +93,6 @@ pika = pygame.image.load(r"C:\Users\Jan-Eric Gedicke\Documents\Skat\AS.png").con
 pika = pygame.transform.scale(pika, (100, 100))
 herza = pygame.image.load(r"C:\Users\Jan-Eric Gedicke\Documents\Skat\AH.png").convert()
 herza = pygame.transform.scale(herza, (100, 100))
-
-'''screen.blit(herz2 ,  ( 20,30))# paint to screen
-screen.blit(herz2 ,  ( 100,30))
-screen.blit(herz2 ,  ( 180,30))
-pygame.display.flip() # paint screen one time'''
 
 #funktion zum mischen der karten
 def mischen():
@@ -229,9 +223,9 @@ def zählen():
         b3=a.split()
         if b1[1]==b2[1] and b1[1]==b3[1]:#Abfrage ob alle karten denn selben wert besitzen
             if b1[1]=='A':
-                print('Spieler4 Gewinnt!!!')#fals Superknack
+                print('Du Gewinnst!!!')#fals Superknack
                 neu()
-            Punkte1=30,5
+            Punkte1=30.5
 
     höchstezahl=0
     if Punkte1==0:  #tritt bei drei unterschiedlichen karten auf
@@ -353,7 +347,7 @@ def zählenspieler2():#Zählen für spieler 2
                 print('Spieler2 hat ein Superknack!!! -> ',Spieler2)
                 print('Spieler2 Gewinnt!!!')#fals Superknack
                 neu()
-            Punkte=30,5
+            Punkte=30.5
             
     höchstezahl=0
     if Punkte==0:  #tritt bei drei unterschiedlichen karten auf
@@ -475,7 +469,7 @@ def zählenspieler3():#Zählen für spieler 3
                 print('Spieler3 hat ein Superknack!!! -> ',Spieler3)
                 print('Spieler3 Gewinnt!!!')#fals Superknack
                 neu()
-            Punkte1=30,5
+            Punkte1=30.5
 
     höchstezahl=0
     if Punkte1==0:  #tritt bei drei unterschiedlichen karten auf
@@ -596,7 +590,7 @@ def zählenspieler4():#Zählen für spieler 4
                 print('Spieler4 hat ein Superknack!!! -> ',Spieler4)
                 print('Spieler4 Gewinnt!!!')#fals Superknack
                 neu()
-            Punkte1=30,5#wenn alle gleich aber kein superknack
+            Punkte1=30.5#wenn alle gleich aber kein superknack
 
     höchstezahl=0
     if Punkte1==0:  #tritt bei drei unterschiedlichen karten auf
@@ -750,15 +744,10 @@ def zählenstappel():#Zählen für Stappel
 #===========================================
 
 def legen():
-    a = Deck[0]#drei karten auf den stappel
-    Stappel.append(a)
-    del Deck[0]
-    a = Deck[0]
-    Stappel.append(a)
-    del Deck[0]
-    a = Deck[0]
-    Stappel.append(a)
-    del Deck[0]
+    for b in range(3):
+        a = Deck[0]#drei karten auf den stappel
+        Stappel.append(a)
+        del Deck[0]
 
     for b in range(3):#drei karten werden an spieler 1 bis 4 vergeben
         a = Deck[0]
@@ -776,10 +765,6 @@ def legen():
         a = Deck[0]
         Spieler4.append(a)
         del Deck[0]
-    print('Spieler 1 =',Spieler1) #Karten von Spieler 1 bis 4
-    print('Spieler 2 =',Spieler2)
-    print('Spieler 3 =',Spieler3)
-    print('Spieler 4 =',Spieler4)
     print('--------------------------------------------') #Stylistisch
     print('')
 
@@ -950,9 +935,26 @@ def Ende1():#Fals Spieler1 die runde beenden möchte
 #=========================================
 #Rundenmechanismus
 #=========================================
+def beginn():#bestimmt wer beginnt
+    a=random.randint(0,4)
+    if a==0:
+        print('Du beginnst')
+    elif a==1:
+        print ('Spieler 2 beginnt')
+        bot()
+        bot2()
+        bot3()
+    elif a==2:
+        print('Spieler 3 beginnt')
+        bot2()
+        bot3()
+    else:
+        print('Spieler 4 beginnt')
+        bot3()
+
 def runde():
     positionkarte()
-    stappelpygame()
+    stapelpygame()
     pygame.display.flip()
     weiter = False
     while weiter ==False:
@@ -992,23 +994,23 @@ def runde():
     positionkarte()
     pygame.display.flip()
 #====================================================
-    time.sleep(random.randrange(3))
+    time.sleep(random.randint(3,6))
     bot()
-    stappelpygame()
+    stapelpygame()
     pygame.display.flip()
 #====================================================
-    time.sleep(random.randrange(3))
+    time.sleep(random.randint(3,6))
     bot2()
-    stappelpygame()
+    stapelpygame()
     pygame.display.flip()
 #====================================================
-    time.sleep(random.randrange(3))
+    time.sleep(random.randint(3,6))
     bot3()
-    stappelpygame()
+    stapelpygame()
     pygame.display.flip()
 #====================================================   
 
-def stappelpygame():
+def stapelpygame():
     for a in range(3):
         if Stappel[a]=='Karo 7':
             screen.blit(karo7 ,  ( 100*a+20,50))
@@ -1147,16 +1149,21 @@ def positionkarte():
             screen.blit(kreuzk ,  ( 100*a+20,200))
         if Spieler1[a]=='Kreuz A':
             screen.blit(kreuza ,  ( 100*a+20,200))
-        
+
 def spiel():
     mischen()
     legen()
-    running = True
-    while (running):
+    beginn()
+    positionkarte()
+    stapelpygame()
+    pygame.display.flip()
+    running=True
+    while running==True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
         runde()
+    #beendet pygame
+    pygame.quit()
 spiel()
-#beendet pygame
-pygame.quit()

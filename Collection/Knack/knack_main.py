@@ -1043,9 +1043,9 @@ def runde():
     pygame.display.flip()
 #====================================================   
 
-def stapelpygame():
+def stapelpygame():#pygam wiedergabe des Stapels
     for a in range(3):
-        if Stappel[a]=='Karo 7':
+        if Stappel[a]=='Karo 7':#Karte wird abgefragt und an passende position gebunden
             screen.blit(karo7 ,  ( 100*a+20,50))
         if Stappel[a]=='Karo 8':
             screen.blit(karo8 ,  ( 100*a+20,50))
@@ -1113,7 +1113,7 @@ def stapelpygame():
         if Stappel[a]=='Kreuz A':
             screen.blit(kreuza ,  ( 100*a+20,50))
 
-def positionkarte():
+def positionkarte():#pygame wiedergabe der Karten vom spieler
     for a in range(3):
         if Spieler1[a]=='Karo 7':
             screen.blit(karo7 ,  ( 100*a+20,200))

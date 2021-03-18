@@ -145,10 +145,10 @@ def zählen():
     Kreuz=0
     Deckart=[]
     for x in range(3):
-        a=Spieler1[x]
+        a=Spieler1[x]#Karte wir in Art und Wertigkeit geteilt
         b=a.split()
         c=b[0]
-        if c=='Karo':
+        if c=='Karo':#Wenn die karte eine einer Art zugewiesen wurde wird dieser um eins erhöht
             Karo=Karo+1
             Deckart.append(c)
         if c=='Herz':
@@ -160,11 +160,11 @@ def zählen():
         if c=='Kreuz':
             Kreuz=Kreuz+1
             Deckart.append(c)        
-    if Karo>Herz and Karo>Pik and Karo>Kreuz:
+    if Karo>Herz and Karo>Pik and Karo>Kreuz:#es wird geguckt welche Art am meisten vorhanden ist/ diese wird dann gezählt
         for a in range(3):
             if Deckart[a]=='Karo':
                 if Spieler1[a]=='Karo A':
-                    Punkte1=Punkte1+11
+                    Punkte1=Punkte1+11#Ass=11 Punkte usw....
                 if Spieler1[a]=='Karo 10' or Spieler1[a]=='Karo B' or Spieler1[a]=='Karo D' or Spieler1[a]=='Karo K': 
                     Punkte1=Punkte1+10
                 if Spieler1[a]=='Karo 7':
@@ -224,15 +224,15 @@ def zählen():
             if b1[1]=='A':
                 print('Du Gewinnst!!!')#fals Superknack
                 neu()
-            Punkte1=30.5
+            Punkte1=30.5#wenn drei gleiche aber kein superknack
 
     höchstezahl=0
-    if Punkte1==0:  #tritt bei drei unterschiedlichen karten auf
+    if Punkte1==0:  #tritt bei drei unterschiedlichen karten auf die nicht gleich sind
         for b in range(3):
             a=Spieler1[b]
             b=a.split()
             c=b[1]
-            if c=='A':
+            if c=='A':#guckt welche wertigkeit die karten haben
                 höchstezahl=11
             if c=='10' or c=='B' or c=='D' or c=='K':
                 if höchstezahl<10:
